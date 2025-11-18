@@ -1,0 +1,5 @@
+.bmad/
+.claude/
+.env
+.env.local
+.DS_Store
