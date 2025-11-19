@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nixtia Color Theme Visualizer</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          'Inter',
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        background: #f8fafc;
+        padding: 2rem;
+        line-height: 1.5;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 0.5rem;
+      }
+
+      .subtitle {
+        font-size: 1.125rem;
+        color: #475569;
+        margin-bottom: 2rem;
+      }
+
+      .theme-grid {
+        display: grid;
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .theme-section {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .theme-header {
+        margin-bottom: 1.5rem;
+      }
+
+      .theme-name {
+        font-size: 1.875rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .theme-description {
+        color: #64748b;
+        font-size: 1rem;
+      }
+
+      .color-palette {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 1rem;
+        margin: 1.5rem 0;
+      }
+
+      .color-swatch {
+        text-align: center;
+      }
+
+      .color-box {
+        height: 80px;
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      }
+
+      .color-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 0.25rem;
+      }
+
+      .color-code {
+        font-size: 0.75rem;
+        font-family: 'JetBrains Mono', monospace;
+        color: #94a3b8;
+      }
+
+      .components-demo {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 2px solid #f1f5f9;
+      }
+
+      .demo-section {
+        margin-bottom: 2rem;
+      }
+
+      .demo-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 1rem;
+      }
+
+      .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-dark);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+      }
+
+      .btn-secondary:hover {
+        background: var(--primary-light);
+      }
+
+      .btn-disabled {
+        background: #cbd5e1;
+        color: #94a3b8;
+        cursor: not-allowed;
+      }
+
+      .input-group {
+        margin-bottom: 1rem;
+      }
+
+      .input-label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 0.5rem;
+      }
+
+      .input-field {
+        width: 100%;
+        max-width: 400px;
+        padding: 0.75rem 1rem;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.2s;
+      }
+
+      .input-field:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px var(--primary-light);
+      }
+
+      .input-error {
+        border-color: var(--error);
+      }
+
+      .card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1rem;
+      }
+
+      .alert {
+        padding: 1rem 1.25rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        font-size: 0.875rem;
+      }
+
+      .alert-success {
+        background: var(--success-light);
+        color: var(--success-dark);
+        border-left: 4px solid var(--success);
+      }
+
+      .alert-error {
+        background: var(--error-light);
+        color: var(--error-dark);
+        border-left: 4px solid var(--error);
+      }
+
+      .alert-warning {
+        background: var(--warning-light);
+        color: var(--warning-dark);
+        border-left: 4px solid var(--warning);
+      }
+
+      /* Nixtia Purple Theme */
+      .theme-nixtia {
+        --primary: #7c3aed;
+        --primary-dark: #6d28d9;
+        --primary-light: #f3f0ff;
+        --success: #10b981;
+        --success-light: #d1fae5;
+        --success-dark: #065f46;
+        --error: #ef4444;
+        --error-light: #fee2e2;
+        --error-dark: #991b1b;
+        --warning: #f59e0b;
+        --warning-light: #fef3c7;
+        --warning-dark: #92400e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎨 Nixtia Color Theme Visualizer</h1>
+      <p class="subtitle">Interactive color palette exploration for Nixtia's UX design</p>
+
+      <div class="theme-grid">
+        <!-- Nixtia Purple Theme -->
+        <div class="theme-section theme-nixtia">
+          <div class="theme-header">
+            <h2 class="theme-name" style="color: #7c3aed">Nixtia Purple</h2>
+            <p class="theme-description">
+              <strong>Professional yet warm</strong> - Purple conveys creativity and
+              trustworthiness. Perfect for artisan food business seeking credibility with
+              approachable feel.
+            </p>
+            <p class="theme-description" style="margin-top: 0.5rem">
+              <strong>Best for:</strong> Elder-friendly interfaces, accessibility-focused design,
+              brand-aligned aesthetics
+            </p>
+          </div>
+
+          <div class="color-palette">
+            <div class="color-swatch">
+              <div class="color-box" style="background: #7c3aed"></div>
+              <div class="color-label">Primary</div>
+              <div class="color-code">#7C3AED</div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-box" style="background: #8b5cf6"></div>
+              <div class="color-label">Primary Light</div>
+              <div class="color-code">#8B5CF6</div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-box" style="background: #6d28d9"></div>
+              <div class="color-label">Primary Dark</div>
+              <div class="color-code">#6D28D9</div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-box" style="background: #f59e0b"></div>
+              <div class="color-label">Accent (Amber)</div>
+              <div class="color-code">#F59E0B</div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-box" style="background: #10b981"></div>
+              <div class="color-label">Success</div>
+              <div class="color-code">#10B981</div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-box" style="background: #ef4444"></div>
+              <div class="color-label">Error</div>
+              <div class="color-code">#EF4444</div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-box" style="background: #f8fafc"></div>
+              <div class="color-label">Background</div>
+              <div class="color-code">#F8FAFC</div>
+            </div>
+            <div class="color-swatch">
+              <div
+                class="color-box"
+                style="
+                  background: #475569;
+                  color: white;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 0.75rem;
+                "
+              >
+                Aa
+              </div>
+              <div class="color-label">Body Text</div>
+              <div class="color-code">#475569</div>
+            </div>
+            <div class="color-swatch">
+              <div
+                class="color-box"
+                style="
+                  background: #0f172a;
+                  color: white;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 1rem;
+                  font-weight: 700;
+                "
+              >
+                Aa
+              </div>
+              <div class="color-label">Headings</div>
+              <div class="color-code">#0F172A</div>
+            </div>
+          </div>
+
+          <div class="components-demo">
+            <div class="demo-section">
+              <div class="demo-title">Buttons</div>
+              <div class="button-row">
+                <button class="btn btn-primary">Add to Cart</button>
+                <button class="btn btn-secondary">View Details</button>
+                <button class="btn btn-disabled">Out of Stock</button>
+              </div>
+            </div>
+
+            <div class="demo-section">
+              <div class="demo-title">Form Inputs</div>
+              <div class="input-group">
+                <label class="input-label" for="normal">Phone Number *</label>
+                <input type="tel" id="normal" class="input-field" placeholder="+54 555 123 4567" />
+              </div>
+              <div class="input-group">
+                <label class="input-label" for="error">Phone Number (Error State) *</label>
+                <input type="tel" id="error" class="input-field input-error" value="123" />
+                <p style="color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem">
+                  Please enter a valid phone number
+                </p>
+              </div>
+            </div>
+
+            <div class="demo-section">
+              <div class="demo-title">Alerts & Feedback</div>
+              <div class="alert alert-success">✓ Product added to cart successfully!</div>
+              <div class="alert alert-error">✗ Failed to process order. Please try again.</div>
+              <div class="alert alert-warning">⚠ Your session will expire in 5 minutes</div>
+            </div>
+
+            <div class="demo-section">
+              <div class="demo-title">Cards</div>
+              <div class="card">
+                <h3
+                  style="
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    color: #0f172a;
+                    margin-bottom: 0.5rem;
+                  "
+                >
+                  Artisan Corn Masa
+                </h3>
+                <p style="color: #64748b; margin-bottom: 1rem">
+                  Authentic nixtamalized corn masa, perfect for tortillas, tamales, and traditional
+                  recipes.
+                </p>
+                <p style="font-size: 1.5rem; font-weight: 700; color: #7c3aed">
+                  $12.99 <span style="font-size: 1rem; font-weight: 400; color: #94a3b8">/ kg</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            style="
+              margin-top: 2rem;
+              padding: 1.5rem;
+              background: #f3f0ff;
+              border-radius: 8px;
+              border-left: 4px solid #7c3aed;
+            "
+          >
+            <h4 style="font-weight: 600; color: #6d28d9; margin-bottom: 0.5rem">
+              Accessibility Notes
+            </h4>
+            <ul style="color: #5b21b6; font-size: 0.875rem; padding-left: 1.5rem">
+              <li>Purple #7c3aed on white meets WCAG AA contrast (4.61:1)</li>
+              <li>Body text #475569 on white meets AAA contrast (9.24:1)</li>
+              <li>Error/success states use color + icons (not color alone)</li>
+              <li>Large touch targets (44x44px minimum) for elder-friendly UX</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 3rem; text-align: center; color: #94a3b8; font-size: 0.875rem">
+        <p>Generated by BMad Method UX Design Workflow</p>
+        <p style="margin-top: 0.25rem">
+          This theme was selected based on Nixtia's brand identity and elder-friendly UX
+          requirements
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -3,6 +3,7 @@
 **Hard Deadline:** 2-3 days for demoable MVP
 
 **Development Sequence:**
+
 - **Day 1-2 (16-20 hours):** Virtual Store
   - Next.js project setup + Supabase integration
   - Product catalog with real data

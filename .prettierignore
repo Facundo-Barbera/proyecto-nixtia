@@ -1,0 +1,12 @@
+.next
+node_modules
+out
+build
+dist
+.cache
+public
+*.lock
+package-lock.json
+.bmad
+.claude
+docs

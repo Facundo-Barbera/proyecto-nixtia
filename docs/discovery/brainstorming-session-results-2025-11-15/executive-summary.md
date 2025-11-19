@@ -3,6 +3,7 @@
 **Topic:** MVP Project Structure & Priorities for Nixtia E-commerce Platform
 
 **Session Goals:**
+
 - Define tight MVP scope for 2-3 day delivery
 - Prioritize features across Landing/WebApp/Store components
 - Identify "nice to have" vs "must have" for client demo
@@ -11,6 +12,7 @@
 - Prevent scope creep while maintaining client confidence
 
 **Techniques Used:**
+
 1. Resource Constraints (Structured)
 2. First Principles Thinking (Creative)
 3. Time Shifting (Creative)

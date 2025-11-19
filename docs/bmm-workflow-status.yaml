@@ -15,12 +15,12 @@
 #   - {file-path}: File created/found (e.g., "docs/product-brief.md")
 #   - skipped: Optional/conditional workflow that was skipped
 
-generated: "2025-11-15"
-project: "nixtia"
-project_type: "software"
-selected_track: "method"
-field_type: "greenfield"
-workflow_path: "method-greenfield.yaml"
+generated: '2025-11-15'
+project: 'nixtia'
+project_type: 'software'
+selected_track: 'method'
+field_type: 'greenfield'
+workflow_path: 'method-greenfield.yaml'
 workflow_status: |
   # Phase 0: Discovery (Optional)
   brainstorm-project: docs/discovery/brainstorming-session-results-2025-11-15  # agent: analyst
@@ -28,15 +28,18 @@ workflow_status: |
   product-brief: docs/discovery/product-brief-proyecto-nixtia-2025-11-15 19-16-57-035  # agent: analyst
 
   # Phase 1: Planning
-  prd: docs/planning/PRD.md  # agent: pm
-  validate-prd: optional  # agent: pm
-  create-design: conditional  # agent: ux-designer
+  prd: docs/planning/PRD  # agent: pm
+  validate-prd: completed  # agent: pm
+  create-epics-and-stories: docs/planning/epics  # agent: pm (optional: early epic structure)
+  create-design: docs/planning/ux-design-specification  # agent: ux-designer (conditional: if_has_ui)
+  create-epics-and-stories-after-ux: completed  # agent: pm (optional: epic structure with UX)
 
   # Phase 2: Solutioning
-  create-architecture: required  # agent: architect
-  test-design: recommended  # agent: tea
-  validate-architecture: optional  # agent: architect
-  solutioning-gate-check: required  # agent: architect
+  create-architecture: docs/solutioning/architecture.md  # agent: architect
+  create-epics-and-stories-final: docs/solutioning/epic-breakdown-technical.md  # agent: pm (REQUIRED: final epic breakdown with full context)
+  test-design: docs/solutioning/test-design-strategy.md  # agent: tea (recommended)
+  validate-architecture: skipped  # agent: architect
+  implementation-readiness: docs/solutioning/implementation-readiness-report-20251118.md  # agent: architect (REQUIRED: final gate check)
 
   # Phase 3: Implementation
   sprint-planning: required  # agent: sm

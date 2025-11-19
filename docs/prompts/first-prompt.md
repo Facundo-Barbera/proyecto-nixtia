@@ -37,4 +37,4 @@ Note: Client provided some assets which will be included in `docs/nixtia-assets`
 - Hosting options:
   - Vercel
   - Lovable
-  - Self-hosted on a VPS (would simplify ci/cd and deployment) 
+  - Self-hosted on a VPS (would simplify ci/cd and deployment)

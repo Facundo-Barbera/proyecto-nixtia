@@ -38,7 +38,7 @@ Cantidades por porción de 100g
 
 Contenido energético 220 Kcal (920 kJ)
 
-Proteína 20g
+Proteína 20g
 
 Grasa total 2.0g
 
@@ -72,5 +72,3 @@ Somos expertos en la creación de productos derivados de maíz, saludables, vers
 auténticos, que combinan sabores tradicionales con nutrición superior y accesibilidad,
 diseñada para cualquier tipo de cocina y ocasión; ya sea para tamales, tortillas, pan, hotcakes,
 repostería y más, con calidad premium.
-
-

@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nixtia Design Direction Mockups</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          'Inter',
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        background: #0f172a;
+        color: white;
+        line-height: 1.5;
+      }
+
+      .nav-header {
+        background: #1e293b;
+        padding: 1.5rem 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .nav-controls {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .nav-btn {
+        padding: 0.5rem 1rem;
+        background: #7c3aed;
+        border: none;
+        border-radius: 6px;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .nav-btn:hover {
+        background: #6d28d9;
+      }
+
+      .mockup-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .mockup-info {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .direction-name {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #7c3aed;
+        margin-bottom: 0.5rem;
+      }
+
+      .direction-description {
+        font-size: 1.125rem;
+        color: #cbd5e1;
+        margin-bottom: 1rem;
+      }
+
+      .direction-meta {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        font-size: 0.875rem;
+        color: #94a3b8;
+        flex-wrap: wrap;
+      }
+
+      .mockup-frame {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        margin-bottom: 2rem;
+      }
+
+      .mockup-screen {
+        min-height: 600px;
+        padding: 0;
+      }
+
+      /* Mobile Frame */
+      .mobile-frame {
+        max-width: 375px;
+        margin: 0 auto;
+      }
+
+      /* Direction 1: Spacious Card Gallery (CHOSEN) */
+      .direction-1 {
+        background: #f8fafc;
+        color: #0f172a;
+      }
+
+      .header {
+        background: white;
+        padding: 1rem 1.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #7c3aed;
+      }
+
+      .cart-icon {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #7c3aed;
+        font-size: 1.5rem;
+      }
+
+      .cart-badge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        background: #7c3aed;
+        color: white;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        font-size: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+      }
+
+      .product-grid {
+        padding: 1.5rem;
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      .product-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.2s;
+      }
+
+      .product-card:hover {
+        box-shadow: 0 4px 6px rgba(124, 58, 237, 0.15);
+      }
+
+      .product-image {
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(135deg, #f3f0ff 0%, #e9d5ff 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+      }
+
+      .product-content {
+        padding: 1.25rem;
+      }
+
+      .product-name {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #0f172a;
+        margin-bottom: 0.5rem;
+      }
+
+      .product-description {
+        font-size: 0.875rem;
+        color: #64748b;
+        margin-bottom: 1rem;
+        line-height: 1.4;
+      }
+
+      .product-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .product-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #7c3aed;
+      }
+
+      .add-to-cart-btn {
+        padding: 0.75rem 1.5rem;
+        background: #7c3aed;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .add-to-cart-btn:hover {
+        background: #6d28d9;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Direction 2: Dense Dashboard */
+      .direction-2 {
+        background: #fff;
+        color: #0f172a;
+      }
+
+      .sidebar {
+        background: #7c3aed;
+        color: white;
+        width: 240px;
+        padding: 1.5rem;
+        float: left;
+        min-height: 600px;
+      }
+
+      .sidebar-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+      }
+
+      .nav-item {
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .nav-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .nav-item.active {
+        background: rgba(255, 255, 255, 0.2);
+        font-weight: 600;
+      }
+
+      .main-content {
+        margin-left: 240px;
+        padding: 2rem;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .stat-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-label {
+        font-size: 0.875rem;
+        color: #64748b;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #0f172a;
+      }
+
+      .chart-placeholder {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #94a3b8;
+      }
+
+      /* Direction 3: Minimal Clean */
+      .direction-3 {
+        background: #ffffff;
+        color: #0f172a;
+      }
+
+      .minimal-header {
+        padding: 2rem 1.5rem;
+        text-align: center;
+        border-bottom: 1px solid #f1f5f9;
+      }
+
+      .minimal-logo {
+        font-size: 2rem;
+        font-weight: 300;
+        color: #0f172a;
+        letter-spacing: -0.5px;
+      }
+
+      .minimal-logo strong {
+        font-weight: 700;
+        color: #7c3aed;
+      }
+
+      .minimal-grid {
+        padding: 3rem 1.5rem;
+        display: grid;
+        gap: 3rem;
+      }
+
+      .minimal-product {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+        padding-bottom: 3rem;
+        border-bottom: 1px solid #f1f5f9;
+      }
+
+      .minimal-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #f3f0ff 0%, #e9d5ff 100%);
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+      }
+
+      .minimal-details h3 {
+        font-size: 1.5rem;
+        font-weight: 300;
+        margin-bottom: 0.5rem;
+      }
+
+      .minimal-details p {
+        color: #64748b;
+        margin-bottom: 1rem;
+      }
+
+      .minimal-price {
+        font-size: 1.25rem;
+        color: #0f172a;
+        margin-bottom: 1rem;
+      }
+
+      .minimal-btn {
+        padding: 0.75rem 2rem;
+        background: #0f172a;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .direction-comparison {
+        margin-top: 3rem;
+        padding: 2rem;
+        background: #1e293b;
+        border-radius: 12px;
+      }
+
+      .comparison-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .comparison-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .comparison-item {
+        background: #334155;
+        padding: 1.5rem;
+        border-radius: 8px;
+      }
+
+      .comparison-item h4 {
+        color: #7c3aed;
+        margin-bottom: 0.5rem;
+      }
+
+      .comparison-item p {
+        color: #cbd5e1;
+        font-size: 0.875rem;
+      }
+
+      @media (max-width: 768px) {
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          width: 100%;
+          float: none;
+        }
+
+        .main-content {
+          margin-left: 0;
+        }
+
+        .minimal-product {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="nav-header">
+      <div class="nav-container">
+        <h1>🎨 Nixtia Design Directions</h1>
+        <div class="nav-controls">
+          <span id="current-direction" style="color: #cbd5e1">Direction 1 of 3</span>
+          <button class="nav-btn" onclick="prevDirection()">← Previous</button>
+          <button class="nav-btn" onclick="nextDirection()">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mockup-container">
+      <!-- Direction 1: Spacious Card Gallery (CHOSEN) -->
+      <div id="direction-1" class="mockup-section">
+        <div class="mockup-info">
+          <div class="direction-name">✓ Direction 1: Spacious Card Gallery</div>
+          <div class="direction-description">
+            Mobile-first, elder-friendly product browsing with generous touch targets
+          </div>
+          <div class="direction-meta">
+            <span><strong>Personality:</strong> Professional & Approachable</span>
+            <span><strong>Density:</strong> Spacious</span>
+            <span><strong>Best for:</strong> Mobile users, accessibility focus</span>
+            <span style="color: #10b981; font-weight: 600">● SELECTED FOR NIXTIA</span>
+          </div>
+        </div>
+
+        <div class="mockup-frame mobile-frame">
+          <div class="mockup-screen direction-1">
+            <div class="header">
+              <div class="logo">Nixtia</div>
+              <div class="cart-icon">
+                🛒
+                <span class="cart-badge">3</span>
+              </div>
+            </div>
+
+            <div class="product-grid">
+              <div class="product-card">
+                <div class="product-image">🌽</div>
+                <div class="product-content">
+                  <div class="product-name">Artisan Corn Masa</div>
+                  <div class="product-description">
+                    Authentic nixtamalized corn masa, perfect for tortillas
+                  </div>
+                  <div class="product-footer">
+                    <div class="product-price">$12.99</div>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="product-card">
+                <div class="product-image">🫓</div>
+                <div class="product-content">
+                  <div class="product-name">Fresh Corn Tortillas</div>
+                  <div class="product-description">Handmade daily with traditional techniques</div>
+                  <div class="product-footer">
+                    <div class="product-price">$8.50</div>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="product-card">
+                <div class="product-image">🌮</div>
+                <div class="product-content">
+                  <div class="product-name">Blue Corn Masa</div>
+                  <div class="product-description">Premium blue corn, stone-ground fresh</div>
+                  <div class="product-footer">
+                    <div class="product-price">$15.99</div>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="comparison-item" style="max-width: 800px; margin: 2rem auto">
+          <h4>Why This Direction Works for Nixtia:</h4>
+          <ul
+            style="
+              color: #cbd5e1;
+              font-size: 0.875rem;
+              padding-left: 1.5rem;
+              margin-top: 0.5rem;
+              line-height: 1.6;
+            "
+          >
+            <li>Large touch targets (44x44px minimum) prevent accidental taps for elder users</li>
+            <li>Generous white space reduces cognitive load and feels less overwhelming</li>
+            <li>Card-based layout is familiar from other e-commerce (Amazon, Shopify)</li>
+            <li>High contrast purple CTAs make primary actions obvious</li>
+            <li>Mobile-first approach aligns with 80% mobile traffic expectation</li>
+            <li>Prominent imagery showcases artisan food quality</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Direction 2: Dense Dashboard -->
+      <div id="direction-2" class="mockup-section" style="display: none">
+        <div class="mockup-info">
+          <div class="direction-name">Direction 2: Information-Dense Dashboard</div>
+          <div class="direction-description">Data-focused admin view with sidebar navigation</div>
+          <div class="direction-meta">
+            <span><strong>Personality:</strong> Professional & Efficient</span>
+            <span><strong>Density:</strong> Dense</span>
+            <span><strong>Best for:</strong> Power users, analytics-heavy workflows</span>
+          </div>
+        </div>
+
+        <div class="mockup-frame">
+          <div class="mockup-screen direction-2">
+            <div class="sidebar">
+              <div class="sidebar-title">Nixtia Admin</div>
+              <div class="nav-item active">📊 Dashboard</div>
+              <div class="nav-item">📦 Products</div>
+              <div class="nav-item">🛒 Orders</div>
+              <div class="nav-item">📈 Analytics</div>
+              <div class="nav-item">⚙️ Settings</div>
+            </div>
+
+            <div class="main-content">
+              <h2 style="font-size: 1.875rem; font-weight: 700; margin-bottom: 1.5rem">
+                Dashboard Overview
+              </h2>
+
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <div class="stat-label">Total Revenue</div>
+                  <div class="stat-value">$3,450</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Orders Today</div>
+                  <div class="stat-value">24</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Avg. Order</div>
+                  <div class="stat-value">$28.75</div>
+                </div>
+              </div>
+
+              <div class="chart-placeholder">
+                <div style="text-align: center">
+                  <div style="font-size: 3rem; margin-bottom: 1rem">📈</div>
+                  <div>Revenue Chart Visualization</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="comparison-item" style="max-width: 800px; margin: 2rem auto">
+          <h4>Direction 2 Analysis:</h4>
+          <ul
+            style="
+              color: #cbd5e1;
+              font-size: 0.875rem;
+              padding-left: 1.5rem;
+              margin-top: 0.5rem;
+              line-height: 1.6;
+            "
+          >
+            <li>
+              <strong>Pros:</strong> Efficient for power users, lots of info at a glance,
+              professional appearance
+            </li>
+            <li>
+              <strong>Cons:</strong> Dense layout may overwhelm new users, sidebar wastes space on
+              mobile
+            </li>
+            <li>
+              <strong>Not chosen because:</strong> Target user (business owner) prefers simplicity
+              over density
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Direction 3: Minimal Clean -->
+      <div id="direction-3" class="mockup-section" style="display: none">
+        <div class="mockup-info">
+          <div class="direction-name">Direction 3: Minimal Editorial</div>
+          <div class="direction-description">
+            Clean, spacious design emphasizing product imagery
+          </div>
+          <div class="direction-meta">
+            <span><strong>Personality:</strong> Sophisticated & Artistic</span>
+            <span><strong>Density:</strong> Very Spacious</span>
+            <span><strong>Best for:</strong> Premium brands, visual storytelling</span>
+          </div>
+        </div>
+
+        <div class="mockup-frame mobile-frame">
+          <div class="mockup-screen direction-3">
+            <div class="minimal-header">
+              <div class="minimal-logo"><strong>Nixtia</strong> Store</div>
+            </div>
+
+            <div class="minimal-grid">
+              <div class="minimal-product">
+                <div class="minimal-image">🌽</div>
+                <div class="minimal-details">
+                  <h3>Artisan Corn Masa</h3>
+                  <p>Authentic nixtamalized corn masa, stone-ground with traditional methods</p>
+                  <div class="minimal-price">$12.99 / kg</div>
+                  <button class="minimal-btn">Add to Cart</button>
+                </div>
+              </div>
+
+              <div class="minimal-product">
+                <div class="minimal-image">🫓</div>
+                <div class="minimal-details">
+                  <h3>Fresh Corn Tortillas</h3>
+                  <p>Handmade daily with care and traditional techniques</p>
+                  <div class="minimal-price">$8.50 / dozen</div>
+                  <button class="minimal-btn">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="comparison-item" style="max-width: 800px; margin: 2rem auto">
+          <h4>Direction 3 Analysis:</h4>
+          <ul
+            style="
+              color: #cbd5e1;
+              font-size: 0.875rem;
+              padding-left: 1.5rem;
+              margin-top: 0.5rem;
+              line-height: 1.6;
+            "
+          >
+            <li>
+              <strong>Pros:</strong> Sophisticated aesthetic, strong visual focus, high-end feel
+            </li>
+            <li>
+              <strong>Cons:</strong> Too much scrolling required, low information density, may feel
+              slow
+            </li>
+            <li>
+              <strong>Not chosen because:</strong> Elder users prefer efficiency over elegance; this
+              feels artistic but not practical
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="direction-comparison">
+        <div class="comparison-title">Design Direction Comparison</div>
+        <div class="comparison-grid">
+          <div class="comparison-item">
+            <h4>Direction 1: Spacious Card Gallery</h4>
+            <p><strong>✓ SELECTED</strong></p>
+            <p>
+              Best balance of accessibility, familiarity, and mobile optimization for Nixtia's
+              target users
+            </p>
+          </div>
+          <div class="comparison-item">
+            <h4>Direction 2: Dense Dashboard</h4>
+            <p><strong>Alternative for Admin</strong></p>
+            <p>Could work well for admin analytics view, but too dense for customer-facing store</p>
+          </div>
+          <div class="comparison-item">
+            <h4>Direction 3: Minimal Editorial</h4>
+            <p><strong>Too Premium</strong></p>
+            <p>
+              Beautiful but impractical for quick mobile checkout - prioritizes aesthetics over
+              speed
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 3rem; text-align: center; color: #94a3b8; font-size: 0.875rem">
+        <p>Generated by BMad Method UX Design Workflow</p>
+        <p style="margin-top: 0.5rem">
+          These mockups visualize different UX approaches to help make informed design decisions
+        </p>
+      </div>
+    </div>
+
+    <script>
+      let currentDirection = 1
+      const totalDirections = 3
+
+      function showDirection(n) {
+        document.querySelectorAll('.mockup-section').forEach((section) => {
+          section.style.display = 'none'
+        })
+        document.getElementById(`direction-${n}`).style.display = 'block'
+        document.getElementById('current-direction').textContent =
+          `Direction ${n} of ${totalDirections}`
+        currentDirection = n
+      }
+
+      function nextDirection() {
+        let next = currentDirection + 1
+        if (next > totalDirections) next = 1
+        showDirection(next)
+      }
+
+      function prevDirection() {
+        let prev = currentDirection - 1
+        if (prev < 1) prev = totalDirections
+        showDirection(prev)
+      }
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') nextDirection()
+        if (e.key === 'ArrowLeft') prevDirection()
+      })
+    </script>
+  </body>
+</html>

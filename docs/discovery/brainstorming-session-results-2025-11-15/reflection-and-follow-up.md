@@ -20,12 +20,14 @@
 ## Recommended Follow-up Techniques
 
 **CONTINUE BRAINSTORMING SESSION:**
+
 - ✅ Resource Constraints (COMPLETED)
 - ⏭️ First Principles Thinking (NEXT - challenge assumptions)
 - ⏭️ Time Shifting (future vision, backwards planning)
 - ⏭️ SCAMPER Method (adapt/modify/repurpose existing solutions)
 
 **POST-BRAINSTORM:**
+
 - **PRD (Product Requirements Document)** - Formalize MVP scope and features
 - **Technical Architecture** - Design database schema, API routes, component structure
 - **Epic Breakdown** - Convert priorities into development stories

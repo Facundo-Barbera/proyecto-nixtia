@@ -3,6 +3,7 @@
 ## **Session 1: Resource Constraints (Structured)**
 
 **Client Vision for Landing Page:**
+
 - Header/Nav: Logo → Pages (Inicio, Nosotros, Tienda, Blog?, Contacto) → Social links → Cart
 - Hero: Product image + "La tradición se renueva con más proteína" + pea/soy mention
 - Educational: Why pea + soy proteins complement amino acids
@@ -20,11 +21,13 @@
 Now let's tackle the **WebApp (for Nixtia)** and **Virtual Store (for their clients)** - this is where your 2-3 days will really be tested.
 
 **The WebApp includes:**
+
 - Dashboard (income data, transaction data, data tables)
 - Virtual store editor
 - Product CRUD
 
 **The Virtual Store includes:**
+
 - Product display
 - Cart & selections
 - Payment methods (bank transfer, on delivery, Stripe Connect)
@@ -34,11 +37,13 @@ Now let's tackle the **WebApp (for Nixtia)** and **Virtual Store (for their clie
 **If you could only deliver ONE fully-working feature in each platform for the demo, which would prove the concept and win client confidence?**
 
 **For WebApp:** Which single feature?
+
 - A) Dashboard with mock/sample data showing analytics
 - B) Product CRUD (add/edit/delete products that appear in store)
 - C) Basic store editor (configure store settings)
 
 **For Virtual Store:** Which single feature?
+
 - A) Product catalog display with real products
 - B) Shopping cart functionality (add to cart, view cart)
 - C) One working payment method (which one?)
@@ -54,9 +59,10 @@ Now let's tackle the **WebApp (for Nixtia)** and **Virtual Store (for their clie
 ✅ **Product catalog** - must work with real product display
 ✅ **Shopping cart** - functional add-to-cart and cart view (demo-ready)
 ✅ **Payment methods** - UI/flow demoable, but integrations can be mocked
-   - Bank transfer: Show form/instructions
-   - On delivery: Show options (card/cash selection)
-   - Stripe Connect: UI present, actual integration can wait
+
+- Bank transfer: Show form/instructions
+- On delivery: Show options (card/cash selection)
+- Stripe Connect: UI present, actual integration can wait
 
 💡 **Key Insight:** "Demoable" vs "Fully integrated" - show the complete user journey with working UI, but payment processing can be simulated for the demo.
 
@@ -79,14 +85,17 @@ Now let's tackle the **WebApp (for Nixtia)** and **Virtual Store (for their clie
 **Decision 4 - Virtual Store Feature Cuts:**
 
 ❌ **Product search/filtering** - ELIMINATED
-   - Rationale: Low product variation means catalog browsing is sufficient
-   - Simple scroll-through works fine for limited SKUs
+
+- Rationale: Low product variation means catalog browsing is sufficient
+- Simple scroll-through works fine for limited SKUs
 
 ⏸️ **Order confirmation** - DEFER (but keep in scope)
-   - Can be a simple styled page - doesn't need complex logic
-   - Priority: Implement AFTER cart + payment flow working
+
+- Can be a simple styled page - doesn't need complex logic
+- Priority: Implement AFTER cart + payment flow working
 
 ✅ **KEEPING in MVP:**
+
 - **Product details page** - Shows product properly
 - **Quantity selector** - Essential for cart functionality
 
@@ -113,6 +122,7 @@ Now let's tackle the **WebApp (for Nixtia)** and **Virtual Store (for their clie
 ⏱️ **Time Budget:** ~2-3 hours
 
 💡 **CRITICAL Insight:** Your real customers are ordering tortillas via WhatsApp! This changes everything about store design:
+
 - Simple, minimal friction checkout - elder-friendly, phone-first
 - Large buttons, clear text - accessibility for older users
 - Phone number validates/formats - ensure it's WhatsApp-compatible
@@ -120,6 +130,7 @@ Now let's tackle the **WebApp (for Nixtia)** and **Virtual Store (for their clie
 - No complex password requirements - phone verification is enough for guest orders
 
 💡 **Strategic Trade-off:** Two-tier security model:
+
 - **High security for business owner** (Nixtia) - Full auth, email verification, protected data
 - **Low friction for customers** - Phone number + optional account, optimized for speed
 
@@ -130,16 +141,18 @@ Now let's tackle the **WebApp (for Nixtia)** and **Virtual Store (for their clie
 **Decision 6 - Tech Stack:**
 
 ✅ **NextJS** (TypeScript) - Single framework for all three components
-   - **Rationale:** Covers everything needed out of the box
-   - Supabase integration = copy-paste ready
-   - API routes for backend logic if needed
-   - SSR/SSG flexibility (static landing, dynamic apps)
-   - Vercel deployment = one-click
-   - Massive ecosystem = solutions already exist
+
+- **Rationale:** Covers everything needed out of the box
+- Supabase integration = copy-paste ready
+- API routes for backend logic if needed
+- SSR/SSG flexibility (static landing, dynamic apps)
+- Vercel deployment = one-click
+- Massive ecosystem = solutions already exist
 
 💡 **Key Insight:** Being pragmatic. NextJS is heavier than preferred, but it eliminates decision fatigue and "gluing things together" time. In a 2-3 day sprint, **boring and proven wins**.
 
 **Confirmed Stack:**
+
 - **Frontend:** NextJS (TypeScript)
 - **Database/Auth:** Supabase
 - **Payments:** Stripe Connect (UI ready, integration can be progressive)
@@ -152,18 +165,21 @@ Now let's tackle the **WebApp (for Nixtia)** and **Virtual Store (for their clie
 **Decision 7 - Demo Safety Net:**
 
 ❌ **SACRIFICE if time runs out: Landing Page**
-   - Rationale: The **working applications** demonstrate real capability
-   - Client cares more about "can this manage my business?" than marketing site
-   - Landing can be delivered post-demo as polish
+
+- Rationale: The **working applications** demonstrate real capability
+- Client cares more about "can this manage my business?" than marketing site
+- Landing can be delivered post-demo as polish
 
 ✅ **NON-NEGOTIABLES for demo confidence:**
-   - WebApp dashboard with analytics (proves business management)
-   - Virtual Store with cart (proves customer experience works)
-   - Payment methods UI (shows complete flow)
+
+- WebApp dashboard with analytics (proves business management)
+- Virtual Store with cart (proves customer experience works)
+- Payment methods UI (shows complete flow)
 
 💡 **Key Insight:** The **apps are the real demo**. Landing page is marketing; WebApp + Store are the actual product that generates revenue.
 
 **Updated Critical Path:**
+
 1. **MUST WORK:** Virtual Store (catalog → cart → checkout flow)
 2. **MUST WORK:** WebApp (auth → dashboard → analytics widgets)
 3. **NICE TO HAVE:** Landing page (can be delivered day 4-5)

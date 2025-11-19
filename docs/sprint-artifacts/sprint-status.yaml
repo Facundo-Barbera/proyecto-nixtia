@@ -1,0 +1,71 @@
+# generated: 2025-11-18
+# project: proyecto-nixtia
+# project_key: proyecto-nixtia
+# tracking_system: file-system
+# story_location: {project-root}/docs/sprint-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic exists in epic file but not contexted
+#   - contexted: Next epic tech context created by *epic-tech-context (required)
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - drafted: Story file created in stories folder by *create-story
+#   - ready-for-dev: Draft approved and story context created by *story-ready
+#   - in-progress: Developer actively working on implementation by *dev-story
+#   - review: Implementation complete, ready for review by *code-review
+#   - done: Story completed by *story-done
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - completed: Retrospective has been done by *retrospective
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epics should be 'contexted' before stories can be 'drafted'
+# - SM typically drafts next story ONLY after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', dev reviews, then Dev moves to 'done'
+
+generated: 2025-11-18
+project: proyecto-nixtia
+project_key: proyecto-nixtia
+tracking_system: file-system
+story_location: '{project-root}/docs/sprint-artifacts'
+
+development_status:
+  epic-1: contexted
+  1-1-project-setup-core-dependencies: ready-for-review
+  1-2-supabase-integration-database-setup: backlog
+  1-3-deployment-pipeline-environment-configuration: backlog
+  epic-1-retrospective: optional
+
+  epic-2: backlog
+  2-1-product-catalog-grid-mobile-first: backlog
+  2-2-product-detail-view: backlog
+  2-3-shopping-cart-widget-persistent-state: backlog
+  2-4-cart-sheet-with-item-management: backlog
+  2-5-guest-checkout-form-with-phone-input: backlog
+  2-6-payment-method-selector-visual-cards: backlog
+  2-7-order-review-confirmation: backlog
+  2-8-order-confirmation-page-success-state: backlog
+  2-9-basic-navigation-header-customer-store: backlog
+  epic-2-retrospective: optional
+
+  epic-3: backlog
+  3-1-admin-authentication-email-password-login: backlog
+  3-2-admin-protected-routes-session-management: backlog
+  3-3-admin-dashboard-layout-navigation: backlog
+  3-4-revenue-chart-widget-daily-weekly-monthly: backlog
+  3-5-transactions-table-widget: backlog
+  3-6-payment-breakdown-chart-widget: backlog
+  epic-3-retrospective: optional
+
+  epic-4: backlog
+  4-1-admin-product-list-view: backlog
+  4-2-add-new-product-modal-with-image-upload: backlog
+  4-3-edit-product-modal-with-existing-data: backlog
+  4-4-delete-product-confirmation-modal: backlog
+  4-5-marketing-landing-page-optional-mvp: backlog
+  epic-4-retrospective: optional

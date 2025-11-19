@@ -3,6 +3,7 @@
 ## Core Features
 
 **Priority #1: Virtual Store (Customer-Facing)**
+
 - Product catalog displaying all available items with images, descriptions, prices
 - Product detail pages for expanded information
 - Shopping cart functionality (add, remove, update quantities)
@@ -16,6 +17,7 @@
 - Responsive mobile-first design using Nixtia brand colors and typography
 
 **Priority #2: WebApp Dashboard (Admin)**
+
 - Supabase email/password authentication for business owner
 - Protected dashboard route (requires login)
 - Three core analytics widgets:
@@ -26,6 +28,7 @@
 - Responsive layout for mobile admin access
 
 **Priority #3: Landing Page (If Time Permits)**
+
 - Five-section structure:
   - Navigation header with logo
   - Hero section introducing Nixtia's value proposition
@@ -37,6 +40,7 @@
 - Social media integration
 
 **Technical Foundation:**
+
 - **Frontend:** Next.js (React) with TailwindCSS
 - **Backend/Database:** Supabase (auth, database, API)
 - **Payments:** Stripe Connect (enables client self-service portal)
@@ -46,6 +50,7 @@
 ## Out of Scope for MVP
 
 **Explicitly Eliminated (Per Brainstorming Session):**
+
 - Product search/filtering (low product density makes it unnecessary)
 - Customer accounts/registration (guest checkout only)
 - Email verification and password reset flows (admin only needs basic auth for demo)
@@ -58,6 +63,7 @@
 - Customer order history lookup
 
 **Landing Page Flexibility:**
+
 - Can be cut entirely if time runs short
 - Apps (store + dashboard) are non-negotiable for demo success
 - Marketing site can be delivered post-demo without impacting core value
@@ -65,6 +71,7 @@
 ## MVP Success Criteria
 
 **Demo Goals:**
+
 - ✅ Customer can browse products, add to cart, complete checkout flow end-to-end
 - ✅ Admin can log in and view revenue chart + transactions table + payment breakdown
 - ✅ UI is polished and brand-aligned (not wireframes or placeholders)
@@ -72,6 +79,7 @@
 - ✅ Client perceives professionalism and technical capability
 
 **Post-Demo Validation (30-60 days):**
+
 - Client commits to full project engagement
 - Real customer orders flow through virtual store
 - Nixtia owner actively uses dashboard for business decisions
@@ -80,6 +88,7 @@
 ## Future Vision
 
 **Phase 2 Enhancements (Post-MVP):**
+
 - Full Stripe Connect integration with real payment processing
 - Product CRUD interface for client self-management
 - Customer order history (phone-based lookup)
@@ -88,6 +97,7 @@
 - Store appearance customization settings
 
 **Long-Term Moonshots:**
+
 - Multi-tenant platform (scale to support multiple food businesses)
 - WhatsApp-first commerce (complete ordering via chat bot)
 - Subscription model for recurring masa deliveries

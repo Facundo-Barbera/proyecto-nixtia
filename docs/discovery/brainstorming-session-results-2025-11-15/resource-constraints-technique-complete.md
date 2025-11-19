@@ -17,6 +17,7 @@
 **Status:** Resource Constraints complete, moving to First Principles Thinking
 **Current Question:** Why does Nixtia need a "WebApp dashboard" at all? What core problem does it solve that can't be handled via Supabase DB, Stripe dashboard, WhatsApp, or simple admin CRUD?
 **Remaining Techniques:**
+
 - First Principles Thinking (IN PROGRESS)
 - Time Shifting
 - SCAMPER Method
