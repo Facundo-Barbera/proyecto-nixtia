@@ -33,7 +33,7 @@ workflow_status: |
   create-design: docs/planning/ux-design-specification.md  # agent: ux-designer (conditional: if_has_ui)
 
   # Phase 2: Solutioning
-  create-architecture: required  # agent: architect
+  create-architecture: docs/planning/architecture  # agent: architect
   create-epics-and-stories: required  # agent: pm (REQUIRED: final epic breakdown with full context)
   test-design: recommended  # agent: tea (recommended)
   validate-architecture: optional  # agent: architect

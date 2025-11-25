@@ -1,3 +1,6 @@
+// Prisma Schema for Nixtia E-Commerce
+// Updated: 2025-11-25 (Story 0.2 - corrected to match actual code usage)
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,82 +10,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Product {
+// Products table - stores product catalog
+model products {
   id          String   @id @default(uuid())
   name        String
   description String?
   price       Decimal  @db.Decimal(10, 2)
   image_url   String?
-  is_active   Boolean  @default(true)
+  active      Boolean  @default(true)
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
-
-  order_items OrderItem[]
-
-  @@map("products")
 }
 
-model Order {
-  id             String        @id @default(uuid())
-  order_number   String        @unique
+// Orders table - stores customer orders
+model orders {
+  id             String   @id @default(uuid())
+  order_number   String   @unique
   customer_phone String
-  total_amount   Decimal       @db.Decimal(10, 2)
-  payment_method PaymentMethod
-  payment_status PaymentStatus @default(PENDING)
-  order_status   OrderStatus   @default(PENDING)
-  created_at     DateTime      @default(now())
-  updated_at     DateTime      @updatedAt
+  payment_method String
+  payment_status String   @default("PENDING")
+  order_status   String   @default("CONFIRMED")
+  items_json     Json     // Stores cart items as JSON
+  total          Decimal  @db.Decimal(10, 2)
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
 
-  order_items OrderItem[]
-
-  @@map("orders")
   @@index([customer_phone])
   @@index([created_at])
 }
 
-model OrderItem {
-  id         String  @id @default(uuid())
-  order_id   String
-  product_id String
-  quantity   Int
-  unit_price Decimal @db.Decimal(10, 2)
-  subtotal   Decimal @db.Decimal(10, 2)
-
-  order   Order   @relation(fields: [order_id], references: [id], onDelete: Cascade)
-  product Product @relation(fields: [product_id], references: [id])
-
-  @@map("order_items")
-  @@index([order_id])
-  @@index([product_id])
-}
-
-model AdminUser {
+// Admin profiles table - linked to Supabase Auth
+model profiles {
   id         String   @id @default(uuid())
   email      String   @unique
+  role       String   @default("admin")
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-
-  @@map("admin_users")
-}
-
-enum PaymentMethod {
-  BANK_TRANSFER
-  CASH_ON_DELIVERY
-  CARD_ON_DELIVERY
-  STRIPE
-}
-
-enum PaymentStatus {
-  PENDING
-  CONFIRMED
-  FAILED
-}
-
-enum OrderStatus {
-  PENDING
-  CONFIRMED
-  PREPARING
-  READY
-  DELIVERED
-  CANCELLED
 }
