@@ -1,0 +1,14 @@
+import { z } from 'zod'
+
+/**
+ * Login form validation schema
+ * Requirements:
+ * - Email must be valid format
+ * - Password must be at least 8 characters (Supabase default)
+ */
+export const LoginSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+})
+
+export type LoginFormData = z.infer<typeof LoginSchema>

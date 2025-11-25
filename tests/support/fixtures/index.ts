@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+// This file uses Playwright's fixture 'use' function, not React Hooks
 import { test as base } from '@playwright/test'
 import { ProductFactory } from './factories/product-factory'
 import { OrderFactory } from './factories/order-factory'

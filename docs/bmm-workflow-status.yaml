@@ -16,7 +16,7 @@
 #   - skipped: Optional/conditional workflow that was skipped
 
 generated: '2025-11-15'
-project: 'nixtia'
+project: 'proyecto-nixtia'
 project_type: 'software'
 selected_track: 'method'
 field_type: 'greenfield'

@@ -54,7 +54,8 @@ export class CartPage {
   }
 
   async getTotalAmount(): Promise<string> {
-    return await this.totalAmount.textContent()
+    const text = await this.totalAmount.textContent()
+    return text ?? '$0.00'
   }
 
   async getItemCount(): Promise<number> {

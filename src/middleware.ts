@@ -1,0 +1,63 @@
+import { createServerClient } from '@supabase/ssr'
+import { NextResponse, type NextRequest } from 'next/server'
+
+export async function middleware(request: NextRequest) {
+  const response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  })
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll()
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) =>
+            request.cookies.set(name, value)
+          )
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
+          )
+        },
+      },
+    }
+  )
+
+  // Check if user is accessing admin routes
+  if (request.nextUrl.pathname.startsWith('/admin')) {
+    // Allow access to login page without authentication
+    if (request.nextUrl.pathname === '/admin/login') {
+      // If already authenticated, redirect to dashboard
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+
+      if (session) {
+        return NextResponse.redirect(new URL('/admin/dashboard', request.url))
+      }
+
+      return response
+    }
+
+    // For all other admin routes, check authentication
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+
+    if (!session) {
+      // No session - redirect to login
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
+  }
+
+  return response
+}
+
+export const config = {
+  matcher: ['/admin/:path*'],
+}
