@@ -30,16 +30,14 @@ workflow_status: |
   # Phase 1: Planning
   prd: docs/planning/PRD  # agent: pm
   validate-prd: completed  # agent: pm
-  create-epics-and-stories: docs/planning/epics  # agent: pm (optional: early epic structure)
-  create-design: docs/planning/ux-design-specification  # agent: ux-designer (conditional: if_has_ui)
-  create-epics-and-stories-after-ux: completed  # agent: pm (optional: epic structure with UX)
+  create-design: docs/planning/ux-design-specification.md  # agent: ux-designer (conditional: if_has_ui)
 
   # Phase 2: Solutioning
-  create-architecture: docs/solutioning/architecture.md  # agent: architect
-  create-epics-and-stories-final: docs/solutioning/epic-breakdown-technical.md  # agent: pm (REQUIRED: final epic breakdown with full context)
-  test-design: docs/solutioning/test-design-strategy.md  # agent: tea (recommended)
-  validate-architecture: skipped  # agent: architect
-  implementation-readiness: docs/solutioning/implementation-readiness-report-20251118.md  # agent: architect (REQUIRED: final gate check)
+  create-architecture: required  # agent: architect
+  create-epics-and-stories: required  # agent: pm (REQUIRED: final epic breakdown with full context)
+  test-design: recommended  # agent: tea (recommended)
+  validate-architecture: optional  # agent: architect
+  implementation-readiness: required  # agent: architect (REQUIRED: final gate check)
 
   # Phase 3: Implementation
   sprint-planning: required  # agent: sm

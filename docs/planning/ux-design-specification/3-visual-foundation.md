@@ -2,70 +2,105 @@
 
 ## 3.1 Color System
 
-**Brand Identity:** Professional yet warm, trustworthy, approachable - purple primary from Nixtia brand
+**Source:** Nixtia brand assets (`docs/nixtia-assets/`)
 
-**Color Palette:**
+### Primary Palette
 
-**Primary Colors:**
+| Color | Hex | Semantic Usage |
+|-------|-----|----------------|
+| Deep Purple | `#4b4877` | Primary brand color, headers, navigation backgrounds |
+| Rich Purple | `#6b4179` | Secondary purple, hover states, accents |
+| Dark Purple | `#241140` | Dark backgrounds, text on light, footer |
+| Marigold Gold | `#ffbb1c` | **Primary CTAs**, highlights, key actions, cart button |
 
-- **Purple 600** `#7C3AED` - Primary brand, main CTAs, active states
-- **Purple 500** `#8B5CF6` - Hover states, secondary emphasis
-- **Purple 700** `#6D28D9` - Active/pressed states, depth
+### Secondary Palette
 
-**Secondary & Accent:**
+| Color | Hex | Semantic Usage |
+|-------|-----|----------------|
+| Magenta | `#7b2d81` | Accent, promotional badges |
+| Pink | `#d4528f` | Secondary accent, decorative |
+| Orange | `#f57532` | Warnings, attention states |
+| Teal | `#218c9d` | Info states, links, secondary actions |
+| Olive Green | `#668622` | Success states, confirmations, "in stock" |
+| Coral Red | `#f53f67` | Error states, destructive actions, alerts |
 
-- **Amber 500** `#F59E0B` - Warm accent for highlights, badges
-- **Emerald 500** `#10B981` - Success states, confirmation
-- **Red 500** `#EF4444` - Error states, destructive actions
+### Semantic Color Mapping
 
-**Neutral Grayscale:**
+```
+--primary: #4b4877        /* Main brand actions */
+--primary-hover: #6b4179  /* Primary hover state */
+--primary-dark: #241140   /* Dark mode / contrast */
 
-- **Slate 50** `#F8FAFC` - Page background
-- **Slate 100** `#F1F5F9` - Card/section backgrounds
-- **Slate 300** `#CBD5E1` - Borders, dividers
-- **Slate 600** `#475569` - Body text
-- **Slate 900** `#0F172A` - Headings, high emphasis
+--accent: #ffbb1c         /* CTAs, Add to Cart, key actions */
+--accent-hover: #e5a818   /* Accent hover (slightly darker gold) */
 
-**Semantic Colors:**
+--success: #668622        /* Order confirmed, in stock */
+--warning: #f57532        /* Attention needed */
+--error: #f53f67          /* Errors, out of stock, delete */
+--info: #218c9d           /* Informational, links */
 
-- Success: Emerald 500 `#10B981`
-- Warning: Amber 500` #F59E0B`
-- Error: Red 500 `#EF4444`
-- Info: Blue 500 `#3B82F6`
+--background: #ffffff     /* Main background */
+--surface: #f8f7fc        /* Cards, elevated surfaces (slight purple tint) */
+--border: #e5e4eb         /* Borders (muted purple-gray) */
 
-**Typography System:**
+--text-primary: #241140   /* Main text (dark purple) */
+--text-secondary: #6b4877 /* Secondary text */
+--text-muted: #9994a8     /* Muted/placeholder text */
+--text-inverse: #ffffff   /* Text on dark backgrounds */
+```
 
-**Fonts:**
+## 3.2 Typography System
 
-- **Headings:** TAN Headline (from brand identity) - Bold, distinctive
-- **Body:** Inter (clean, readable sans-serif) - Regular 400, Medium 500, Semibold 600
-- **Monospace:** JetBrains Mono (for order numbers, technical data)
+**Source:** Nixtia brand assets
 
-**Type Scale:**
+| Role | Font | Usage |
+|------|------|-------|
+| **Display/Headlines** | TAN Headline | Logo, hero text, major section headers |
+| **Elegant Accent** | Libre Baskerville | Subheadings, quotes, premium feel moments |
+| **Body/UI** | Poppins | Primary UI text, buttons, labels, body copy |
+| **Fallback** | Inter, Open Sauce, system sans-serif | Fallback stack |
 
-- H1: 2.25rem (36px) / 2.5rem line-height - Page titles
-- H2: 1.875rem (30px) / 2.25rem - Section headers
-- H3: 1.5rem (24px) / 2rem - Subsection headers
-- H4: 1.25rem (20px) / 1.75rem - Card titles
-- Body: 1rem (16px) / 1.5rem - Default text
-- Small: 0.875rem (14px) / 1.25rem - Helper text, captions
-- Tiny: 0.75rem (12px) / 1rem - Labels, badges
+### Type Scale
 
-**Spacing System:**
+```
+--text-xs: 0.75rem      /* 12px - captions, fine print */
+--text-sm: 0.875rem     /* 14px - secondary text, labels */
+--text-base: 1rem       /* 16px - body text */
+--text-lg: 1.125rem     /* 18px - large body, intro text */
+--text-xl: 1.25rem      /* 20px - small headings */
+--text-2xl: 1.5rem      /* 24px - section headings */
+--text-3xl: 1.875rem    /* 30px - page titles */
+--text-4xl: 2.25rem     /* 36px - hero headlines */
+--text-5xl: 3rem        /* 48px - major display text */
+```
 
-- Base unit: 4px (Tailwind standard)
-- Scale: 0.5 (2px), 1 (4px), 2 (8px), 3 (12px), 4 (16px), 6 (24px), 8 (32px), 12 (48px), 16 (64px), 24 (96px)
+## 3.3 Spacing System
 
-**Layout Grid:**
+**Base unit:** 4px (Tailwind default)
 
-- 12-column grid system (Tailwind default)
-- Container max-widths:
-  - Mobile: 100% (fluid)
-  - Tablet: 768px
-  - Desktop: 1280px
+```
+--space-1: 0.25rem   /* 4px */
+--space-2: 0.5rem    /* 8px */
+--space-3: 0.75rem   /* 12px */
+--space-4: 1rem      /* 16px */
+--space-5: 1.25rem   /* 20px */
+--space-6: 1.5rem    /* 24px */
+--space-8: 2rem      /* 32px */
+--space-10: 2.5rem   /* 40px */
+--space-12: 3rem     /* 48px */
+--space-16: 4rem     /* 64px */
+```
+
+## 3.4 Visual Motifs
+
+**Mexican Folk Art Elements** (from brand assets):
+- Decorative flourishes around logo
+- Floral/botanical border patterns
+- Use sparingly: headers, dividers, special moments
+- NOT on every component — reserve for brand moments
 
 **Interactive Visualizations:**
 
-Color theme visualizer with live UI components will be generated at: [docs/ux-color-themes.html](./ux-color-themes.html)
+- Color Theme Explorer: [ux-color-themes.html](./ux-color-themes.html)
 
 ---

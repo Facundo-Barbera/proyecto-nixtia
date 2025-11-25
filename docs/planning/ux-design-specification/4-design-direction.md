@@ -1,38 +1,65 @@
 # 4. Design Direction
 
-## 4.1 Chosen Design Approach
+## 4.1 Virtual Store — Mobile
 
-**Selected Direction:** **"Spacious Card Gallery"** - Mobile-first, card-based product browsing with generous touch targets
+| Dimension | Direction | Rationale |
+|-----------|-----------|-----------|
+| **Layout** | Single column, vertical scroll | Mobile-native, thumb-friendly |
+| **Density** | Spacious | Elder-friendly, large touch targets (min 44px) |
+| **Visual Weight** | Warm & inviting | Food context, brand personality |
+| **Imagery** | Product-forward | Large product photos drive appetite |
+| **Navigation** | Sticky cart FAB, minimal header | Speed to checkout, always accessible |
+| **Flow** | Products → Cart → Checkout | Linear, no branching |
 
-**Layout Decisions:**
+**Vibe:** Like ordering from a trusted friend's menu — warm, simple, immediate.
 
-- **Navigation:** Top navigation bar (mobile: logo + cart icon, desktop: adds admin login link)
-- **Content Structure:** Single column on mobile, 2-3 column grid on tablet/desktop
-- **Product Organization:** Large product cards with prominent imagery
+## 4.2 Virtual Store — Desktop
 
-**Visual Hierarchy:**
+| Dimension | Direction | Rationale |
+|-----------|-----------|-----------|
+| **Layout** | Split: Products (65%) / Cart (35%) | Cart always visible, no surprises |
+| **Density** | Balanced | More screen real estate, still clean |
+| **Visual Weight** | Warm, premium feel | Elevated from mobile, same brand warmth |
+| **Imagery** | Large product cards | Appetite-driving visuals |
+| **Navigation** | Header with logo, cart summary sticky on right | One-click checkout always accessible |
+| **Flow** | Browse left, cart updates right, checkout expands | Real-time feedback as customer builds order |
 
-- **Density:** Spacious - generous white space, breathing room between elements
-- **Header Emphasis:** Bold TAN Headline headers with strong contrast
-- **Content Focus:** Imagery-heavy for products, data-focused for admin dashboard
+**Vibe:** Like a curated market stall with your basket beside you — everything visible, nothing hidden.
 
-**Interaction Patterns:**
+## 4.3 Admin Dashboard — Desktop (Primary)
 
-- **Primary Actions:** Floating "Add to Cart" button on product cards, sticky "Proceed to Checkout" in cart
-- **Information Disclosure:** Progressive - cart summary slides in from right, checkout form expands inline
-- **User Control:** Flexible - customers can edit cart freely, no forced steps
+| Dimension | Direction | Rationale |
+|-----------|-----------|-----------|
+| **Layout** | Sidebar navigation + main content area | Desktop standard, clear section access |
+| **Density** | Balanced | Enough data to impress, not overwhelming |
+| **Visual Weight** | Professional/clean | SaaS credibility for demo/sale |
+| **Data Display** | Card-based KPI metrics + data tables | Visual impact + actionable detail |
+| **Charts** | Revenue trend line, payment method breakdown | Immediate "I understand my business" moment |
+| **Navigation** | Collapsible sidebar, breadcrumbs | Scalable for future features |
 
-**Visual Style:**
+**Vibe:** Like logging into a tool that finally makes sense of the chaos — clarity from day one.
 
-- **Weight:** Balanced - clear structure with subtle shadows for card elevation
-- **Depth Cues:** Subtle elevation - 2-4px shadows on cards, 8px on modals
-- **Borders:** Subtle - 1px slate-300 borders on form inputs, no borders on cards (shadow only)
+## 4.4 Admin Dashboard — Mobile (Secondary)
 
-**Rationale:**
-Elder-friendly UX demands large touch targets, clear visual hierarchy, and familiar patterns. The spacious card layout prevents accidental taps, prominent CTAs reduce cognitive load, and the mobile-first approach aligns with 80% mobile traffic. This direction balances professional credibility with approachable warmth.
+| Dimension | Direction | Rationale |
+|-----------|-----------|-----------|
+| **Layout** | Single column, stacked cards | Functional mobile fallback |
+| **Navigation** | Bottom nav or hamburger menu | Thumb-accessible |
+| **Data Display** | Simplified cards, key metrics only | Quick glance on-the-go |
+| **Charts** | Simplified or hidden, tap to expand | Performance over polish on mobile |
 
-**Design Direction Mockups:**
+**Vibe:** Quick business pulse check while away from desk — functional, not primary.
 
-Interactive HTML showcase with 6-8 design variations will be generated at: [docs/ux-design-directions.html](./ux-design-directions.html)
+## 4.5 Responsive Breakpoints
+
+| Breakpoint | Width | Store Behavior | Admin Behavior |
+|------------|-------|----------------|----------------|
+| **Mobile** | < 768px | Single column, FAB cart | Stacked cards, bottom nav |
+| **Tablet** | 768px - 1024px | Split layout (50/50) | Sidebar collapsed by default |
+| **Desktop** | > 1024px | Split layout (65/35) | Full sidebar, expanded view |
+
+**Interactive Mockups:**
+
+- Design Direction Showcase: [ux-design-directions.html](./ux-design-directions.html)
 
 ---

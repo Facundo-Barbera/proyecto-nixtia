@@ -2,44 +2,59 @@
 
 ## 2.1 Defining Experience
 
-**The Defining Experience:** **"Frictionless mobile checkout without account creation"**
+**Customer Store — Core Experience:**
+- Users are **existing fans** migrating from WhatsApp ordering, not strangers discovering the brand
+- Tiny catalog (protein tortillas + 1 additional product) — no browsing/search complexity needed
+- **The ONE thing:** Order what I already want, faster than WhatsApp
+- This is about **convenience and speed**, not discovery
+- Effortless moment: "I want tortillas → I have tortillas ordered" in under 60 seconds
 
-When someone describes Nixtia to a friend:
-_"It's the easiest way to buy artisan corn products online - no signup, just add to cart and checkout with your phone number. Done in 30 seconds."_
+**Admin Dashboard — Core Experience:**
+- Information panels must impress for the **demo/sale** to client
+- Professional, polished visuals that communicate business value
+- Operational automation is the real long-term value
+- Effortless moment: "Wow, I can see my business" — immediate visual impact on login
 
-**Core Experience Principles:**
+## 2.2 Platform Strategy
 
-1. **Speed:** Lightning-fast - every tap should feel instant
-   - Add to cart: < 200ms feedback
-   - Checkout form: Single screen, no steps
-   - Page loads: < 2 seconds on 4G
+| Interface | Primary Device | Secondary Device | Optimization Focus |
+|-----------|---------------|------------------|-------------------|
+| **Virtual Store** | Mobile (excellent) | Desktop (smooth) | Speed, thumb-friendly, minimal steps |
+| **Admin Dashboard** | Desktop (excellent) | Mobile (functional) | Visual impact, data clarity, professional feel |
 
-2. **Guidance:** Minimal but present - trust that users know e-commerce basics
-   - Clear CTAs with high contrast
-   - Inline validation hints
-   - Visual feedback for all actions
-   - Empty states with helpful guidance
+**Balance goal:** Both interfaces should feel great on both devices, but each optimizes for its primary user context.
 
-3. **Flexibility:** Simplicity over control for customers, full control for admin
-   - Customers: No account needed, no customization distractions
-   - Admin: Full CRUD control, flexible analytics filtering
+## 2.3 Emotional Design Goals
 
-4. **Feedback:** Subtle but reassuring - not celebratory, just confident
-   - Success: Subtle checkmark animation + green toast
-   - Loading: Minimal spinners or skeleton screens
-   - Errors: Clear, actionable messages inline
+| User | Target Feeling | Design Implication |
+|------|----------------|-------------------|
+| **Customer** | *"That was easy — just like texting my order"* | Familiar, fast, zero friction, no learning curve |
+| **Admin** | *"Finally, I understand my business"* | Clarity, visual impact, professional confidence |
 
-## 2.2 Novel UX Patterns
+**Multi-Channel Context:** The web store is one ordering channel alongside a future WhatsApp bot. Both must feel equally effortless — customers choose their preferred method, not a "better" one.
 
-**Standard E-commerce Patterns Apply:**
+## 2.4 UX Pattern Analysis
 
-- Browse → Product Detail → Add to Cart → Checkout flow is well-established
-- No novel patterns needed - this is a strength for elder-friendly UX
-- Users already understand this pattern from every e-commerce site
+**Customer Store — Applicable Patterns:**
+- Simple food ordering flows (think: quick-service restaurant apps)
+- Minimal e-commerce with tiny catalogs
+- Phone-number-first checkout (no email/password)
+- Single-page or minimal-step purchase flows
+- Large touch targets, thumb-friendly mobile design
 
-**Key Adaptation:**
+**Admin Dashboard — Applicable Patterns:**
+- Analytics dashboards with immediate visual impact
+- Card-based metric displays
+- Clean data tables with essential info
+- Professional SaaS aesthetic
+- Desktop-optimized layouts with responsive mobile fallback
 
-- **Guest-first checkout** is less common but increasingly familiar (Amazon, Shopify)
-- **Phone number as identity** is WhatsApp-native (users are already comfortable)
+## 2.5 Novel UX Patterns
+
+**No novel patterns required.** This project uses established e-commerce and dashboard patterns adapted to:
+- Elder-friendly, low-digital-literacy customers
+- WhatsApp-migrating user behavior
+- Tiny product catalog (no search/filter complexity)
+- Demo/sale context requiring visual polish
 
 ---

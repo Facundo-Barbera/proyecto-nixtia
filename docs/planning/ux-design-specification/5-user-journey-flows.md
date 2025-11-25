@@ -1,136 +1,166 @@
 # 5. User Journey Flows
 
-## 5.1 Critical User Paths
+## 5.1 Customer Purchase Flow
 
-### Journey 1: **Browse → Add to Cart → Checkout** (Customer Core Flow)
-
-**User Goal:** Purchase nixtamalized corn products quickly from mobile device
-
-**Flow Approach:** Progressive disclosure - start simple, add complexity only when needed
-
-**Steps:**
-
-1. **Landing / Product Catalog** (Entry Point)
-   - User sees: Grid of product cards with large images, names, prices
-   - User does: Scrolls to browse, taps card to view details
-   - System responds: Smooth scroll, instant card tap feedback
-
-2. **Product Detail** (Information)
-   - User sees: Large image, full description, price, quantity selector, "Add to Cart" button
-   - User does: Adjusts quantity (default: 1), taps "Add to Cart"
-   - System responds: Cart icon badge updates with count + brief success toast
-
-3. **Cart Review** (Optional but Encouraged)
-   - User sees: Persistent cart icon in header (shows item count)
-   - User does: Taps cart icon
-   - System responds: Cart sidebar slides in from right showing items, quantities, total
-
-4. **Cart Management** (Refinement)
-   - User sees: List of cart items with inline quantity controls, remove buttons, subtotal
-   - User does: Adjusts quantities, removes items, taps "Proceed to Checkout"
-   - System responds: Inline updates to totals, smooth transition to checkout form
-
-5. **Checkout Form** (Conversion Critical)
-   - User sees: Single-screen form - Phone number input (with country code), Payment method selector (3 visual cards), Order summary, "Complete Order" button
-   - User does: Enters phone, selects payment method, taps "Complete Order"
-   - System responds: Inline validation on phone number, visual selection state on payment method
-
-6. **Order Confirmation** (Success State)
-   - User sees: Success checkmark animation, order reference number (large, copyable), order summary, payment instructions (if bank transfer), "Return to Store" button
-   - User does: Screenshots/copies order number, follows payment instructions
-   - System responds: Order reference is selectable text, payment details clearly displayed
-
-**Decision Points:**
-
-- Cart empty? → Show empty state with "Browse Products" CTA
-- Invalid phone number? → Inline error message below input, prevent submission
-- Payment method not selected? → Highlight payment selector with error border
-
-**Error States:**
-
-- Network failure on checkout submission → Show retry button with error message
-- Duplicate order detected → Confirm with user: "You just placed this order. Submit again?"
-
-**Success Flow Diagram:**
+**Goal:** Order products in under 60 seconds
 
 ```
-[Product Catalog]
-       ↓ (tap product)
-[Product Detail]
-       ↓ (add to cart)
-[Cart Icon Badge Updates]
-       ↓ (tap cart icon)
-[Cart Sidebar Slides In]
-       ↓ (proceed to checkout)
-[Checkout Form]
-       ↓ (complete order)
-[Order Confirmation]
+┌─────────────────────────────────────────────────────────────────┐
+│  ENTRY: Product Catalog                                         │
+│  ─────────────────────                                          │
+│  • Land on product grid (1-2 products displayed)                │
+│  • Large product images, clear prices                           │
+│  • Quantity selector visible on each product card               │
+│                                                                 │
+│         ↓ [Select quantity + Add to Cart]                       │
+│                                                                 │
+├─────────────────────────────────────────────────────────────────┤
+│  CART UPDATE: Real-time feedback                                │
+│  ────────────────────────────                                   │
+│  • Cart panel updates (desktop: right side / mobile: FAB badge) │
+│  • Running total visible                                        │
+│  • Can adjust quantities or remove items                        │
+│                                                                 │
+│         ↓ [Proceed to Checkout]                                 │
+│                                                                 │
+├─────────────────────────────────────────────────────────────────┤
+│  CHECKOUT: Single-page progressive flow                         │
+│  ──────────────────────────────────────                         │
+│  Step 1: Phone number input (with country code MX default)      │
+│          → Auto-format, validation feedback                     │
+│                                                                 │
+│  Step 2: Payment method selection                               │
+│          → Bank transfer (show account details)                 │
+│          → Cash/card on delivery                                │
+│          → Stripe card payment                                  │
+│                                                                 │
+│  Step 3: Order summary review                                   │
+│          → Items, quantities, total                             │
+│          → Payment method selected                              │
+│                                                                 │
+│         ↓ [Confirm Order]                                       │
+│                                                                 │
+├─────────────────────────────────────────────────────────────────┤
+│  CONFIRMATION: Success state                                    │
+│  ───────────────────────────                                    │
+│  • Order reference number                                       │
+│  • Summary of what was ordered                                  │
+│  • Next steps based on payment method                           │
+│  • WhatsApp link for delivery coordination (optional)           │
+│  • "Order again" shortcut                                       │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-### Journey 2: **Admin Login → Dashboard Analytics** (Business Owner Core Flow)
-
-**User Goal:** Log in and immediately see business performance
-
-**Flow Approach:** Single-screen dashboard with all three analytics widgets visible
-
-**Steps:**
-
-1. **Login Screen** (Entry)
-   - User sees: Simple email/password form, "Remember me" checkbox, "Forgot password?" link (disabled for demo)
-   - User does: Enters credentials, checks "Remember me", taps "Sign In"
-   - System responds: Loading spinner on button, validates credentials, redirects to dashboard
-
-2. **Dashboard Home** (Primary Screen)
-   - User sees: Three prominent widgets - Revenue Chart (top, large), Transactions Table (middle), Payment Breakdown Chart (bottom right)
-   - User does: Views analytics, hovers over chart elements for details, scrolls for more transactions
-   - System responds: Interactive chart tooltips, smooth scrolling
-
-3. **Date Range Filtering** (Optional)
-   - User sees: Date range picker above revenue chart
-   - User does: Selects date range (Daily, Weekly, Monthly, Custom)
-   - System responds: Revenue chart updates with filtered data, totals recalculate
-
-4. **Transaction Details** (Optional)
-   - User sees: Transaction table with Date, Customer Phone, Total, Payment Method columns
-   - User does: Scans recent orders
-   - System responds: (Post-demo: Sort, search, filter capabilities)
-
-**Decision Points:**
-
-- Invalid credentials? → Inline error below form: "Invalid email or password"
-- Session expired? → Redirect to login with message: "Session expired, please log in again"
+**Key UX Decisions:**
+- **Entry point:** Product catalog (not single product) — scalable for future products
+- **Quantity selection:** On product card, before add-to-cart — reduces steps
+- **Checkout:** Single page with progressive sections — fast but not overwhelming
+- **No account required:** Phone number only — zero friction
 
 **Error States:**
+- Invalid phone number → Inline error, clear format hint
+- Payment selection required → Highlight payment options
+- Network error → Retry button, preserve cart state
 
-- Dashboard load failure → Show error with "Retry" button
-- Chart render error → Fallback to table view
+---
 
-### Journey 3: **Product Management** (Post-Demo Admin Flow)
+## 5.2 Admin Dashboard Flow
 
-**User Goal:** Add/edit products independently
+**Goal:** Immediate business clarity on login
 
-**Flow Approach:** Table view with inline editing + modal for creation
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  ENTRY: Login Page                                              │
+│  ─────────────────                                              │
+│  • Clean, branded login form                                    │
+│  • Email + Password fields                                      │
+│  • "Remember me" checkbox                                       │
+│  • Password visibility toggle                                   │
+│                                                                 │
+│         ↓ [Login]                                               │
+│                                                                 │
+├─────────────────────────────────────────────────────────────────┤
+│  DASHBOARD: Overview (Landing after login)                      │
+│  ─────────────────────────────────────────                      │
+│                                                                 │
+│  ┌──────────────┬──────────────┬──────────────┐                │
+│  │   REVENUE    │    ORDERS    │   PAYMENT    │                │
+│  │   This Week  │    Today     │   BREAKDOWN  │                │
+│  │   $X,XXX     │     XX       │   [PIE/BAR]  │                │
+│  │   ↑ 12%      │              │              │                │
+│  └──────────────┴──────────────┴──────────────┘                │
+│                                                                 │
+│  ┌─────────────────────────────────────────────┐               │
+│  │  REVENUE TREND CHART                        │               │
+│  │  [Line chart - daily/weekly/monthly toggle] │               │
+│  └─────────────────────────────────────────────┘               │
+│                                                                 │
+│  ┌─────────────────────────────────────────────┐               │
+│  │  RECENT TRANSACTIONS TABLE                  │               │
+│  │  Date | Customer | Amount | Payment Method  │               │
+│  │  ─────────────────────────────────────────  │               │
+│  │  ...  | ...      | ...    | ...             │               │
+│  └─────────────────────────────────────────────┘               │
+│                                                                 │
+├─────────────────────────────────────────────────────────────────┤
+│  SIDEBAR NAVIGATION                                             │
+│  ──────────────────                                             │
+│  • Dashboard (current)                                          │
+│  • Orders (view all orders)                                     │
+│  • Products (CRUD - post-demo)                                  │
+│  • Settings (future)                                            │
+│  • Logout                                                       │
+└─────────────────────────────────────────────────────────────────┘
+```
 
-**Steps:**
+**Key UX Decisions:**
+- **Post-login landing:** Dashboard with ALL key metrics visible immediately
+- **First impression:** Revenue + Orders + Payment breakdown — the "wow" moment
+- **Data hierarchy:** KPI cards at top, trend chart middle, transactions table bottom
+- **Navigation:** Sidebar for future scalability (Orders, Products, Settings)
 
-1. **Products Tab** (Entry)
-   - User sees: Table of products (Image thumbnail, Name, Price, Status toggle, Actions)
-   - User does: Taps "Add New Product" button
-   - System responds: Modal opens with product creation form
+**Error States:**
+- Invalid credentials → Inline error, clear message
+- Session expired → Redirect to login with message
+- Data loading error → Skeleton states, retry option
 
-2. **Add Product Form** (Modal)
-   - User sees: Form fields - Image upload, Name, Description, Price, Active toggle, "Save" / "Cancel"
-   - User does: Fills form, uploads image (drag-drop or click), taps "Save"
-   - System responds: Image preview updates, validation on required fields, success toast on save
+---
 
-3. **Edit Product** (Inline)
-   - User sees: Pencil icon in Actions column
-   - User does: Taps edit icon
-   - System responds: Row expands to inline edit mode OR modal opens (TBD during implementation)
+## 5.3 Flow Diagrams (Mermaid)
 
-4. **Toggle Active/Inactive** (Quick Action)
-   - User sees: Toggle switch in Status column
-   - User does: Taps toggle
-   - System responds: Instant visual update, brief confirmation toast
+**Customer Purchase Flow:**
+```mermaid
+flowchart TD
+    A[Land on Store] --> B[View Products]
+    B --> C[Select Quantity]
+    C --> D[Add to Cart]
+    D --> E{More items?}
+    E -->|Yes| B
+    E -->|No| F[Proceed to Checkout]
+    F --> G[Enter Phone Number]
+    G --> H[Select Payment Method]
+    H --> I[Review Order]
+    I --> J[Confirm Order]
+    J --> K[Order Confirmation]
+    K --> L{Order Again?}
+    L -->|Yes| B
+    L -->|No| M[Exit / WhatsApp]
+```
+
+**Admin Dashboard Flow:**
+```mermaid
+flowchart TD
+    A[Login Page] --> B{Valid Credentials?}
+    B -->|No| C[Show Error]
+    C --> A
+    B -->|Yes| D[Dashboard Overview]
+    D --> E[View Revenue Chart]
+    D --> F[View Transactions]
+    D --> G[View Payment Breakdown]
+    D --> H[Sidebar: Orders]
+    D --> I[Sidebar: Products]
+    D --> J[Logout]
+    J --> A
+```
 
 ---
