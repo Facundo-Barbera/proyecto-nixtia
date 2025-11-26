@@ -102,6 +102,29 @@ So that **I can demonstrate progress to stakeholders**.
 
 ---
 
+## Story 2.4: Move Landing Page to Root URL
+
+As a **visitor**,
+I want to **access the landing page at the site root (`/`)**,
+So that **I have a conventional, intuitive entry point to the site**.
+
+**Acceptance Criteria:**
+
+**Given** a user navigates to `/`
+**Then** the landing page renders correctly
+**And** the `/landing` route redirects 301 to `/` (preserves bookmarks)
+**And** all internal links updated to point to `/`
+
+**Prerequisites:** Story 2.1
+
+**Technical Notes:**
+- Move `src/app/landing/page.tsx` → `src/app/page.tsx`
+- Add redirect in `next.config.js` or middleware: `/landing` → `/`
+- Update Hero CTA and footer links if any reference `/landing`
+- Quick win: 30-60 min implementation
+
+---
+
 ## Epic 2 Summary
 
 | Story | Title | Dependencies |
@@ -109,6 +132,7 @@ So that **I can demonstrate progress to stakeholders**.
 | 2.1 | Verify Landing Page Renders Correctly | Epic 1 |
 | 2.2 | Add Social Media Links | 2.1 |
 | 2.3 | Landing Page Polish and Demo-Ready State | 2.1, 2.2 |
+| 2.4 | Move Landing Page to Root URL | 2.1 |
 
 **Output:** Demo-ready landing page you can show off
 

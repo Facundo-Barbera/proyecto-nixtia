@@ -1,0 +1,284 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>1</storyId>
+    <title>Verify Landing Page Renders Correctly</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-25</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/epic-2/2-1-verify-landing-page-renders-correctly.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>visitor</asA>
+    <iWant>see a fully functional landing page</iWant>
+    <soThat>I understand what Nixtia offers and can navigate to the store</soThat>
+    <tasks>
+      <task id="1" name="Hero Section Verification" ac="2.1.1,2.1.2">
+        <subtask>Navigate to /landing and verify hero section renders</subtask>
+        <subtask>Confirm "Nixtia" branding is visible with proper styling</subtask>
+        <subtask>Click "Shop Now" button and verify navigation to /store</subtask>
+        <subtask>Test navigation back to landing page works</subtask>
+      </task>
+      <task id="2" name="Section Rendering Verification" ac="2.1.3,2.1.5,2.1.6">
+        <subtask>Verify Value Proposition section displays brand messaging</subtask>
+        <subtask>Verify Educational Content section shows nixtamalization info</subtask>
+        <subtask>Verify Footer displays contact info and navigation links</subtask>
+        <subtask>Check all internal links in footer navigate correctly</subtask>
+      </task>
+      <task id="3" name="Featured Products Verification" ac="2.1.4">
+        <subtask>Verify exactly 6 product cards display from Supabase</subtask>
+        <subtask>Check Network tab confirms Supabase request succeeds</subtask>
+        <subtask>Verify product images, names, and prices display correctly</subtask>
+        <subtask>Test with less than 6 products in DB (graceful degradation)</subtask>
+      </task>
+      <task id="4" name="Performance Audit" ac="2.1.7,2.1.8,2.1.10">
+        <subtask>Run Lighthouse audit in Chrome DevTools</subtask>
+        <subtask>Verify Performance score greater than 85</subtask>
+        <subtask>Verify CLS less than 0.1</subtask>
+        <subtask>Test page load time under simulated mobile 4G (less than 2 seconds)</subtask>
+        <subtask>Check LCP less than 2.5 seconds and FCP less than 1.5 seconds</subtask>
+      </task>
+      <task id="5" name="Console and Error Verification" ac="2.1.9">
+        <subtask>Open browser DevTools Console</subtask>
+        <subtask>Refresh landing page and observe console output</subtask>
+        <subtask>Verify no errors or warnings appear</subtask>
+        <subtask>Check Network tab for any failed requests</subtask>
+      </task>
+      <task id="6" name="Cross-Browser Verification">
+        <subtask>Test landing page in Chrome (primary)</subtask>
+        <subtask>Test landing page in Firefox (secondary)</subtask>
+        <subtask>Verify consistent rendering across browsers</subtask>
+      </task>
+      <task id="7" name="Document Verification Results">
+        <subtask>Record Lighthouse scores in Completion Notes</subtask>
+        <subtask>Note any warnings or minor issues observed</subtask>
+        <subtask>Capture screenshots if needed for documentation</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <ac id="2.1.1" title="Hero section renders with Nixtia branding">
+      <given>the landing page loads</given>
+      <when>viewing the hero section</when>
+      <then>"Nixtia" text is visible with proper styling</then>
+    </ac>
+    <ac id="2.1.2" title="Shop Now CTA button is functional">
+      <given>the hero section is visible</given>
+      <when>clicking "Shop Now"</when>
+      <then>user navigates to /store</then>
+    </ac>
+    <ac id="2.1.3" title="Value proposition section renders">
+      <given>the landing page loads</given>
+      <then>the value proposition section displays brand messaging</then>
+    </ac>
+    <ac id="2.1.4" title="Featured products display 6 items">
+      <given>active products exist in database</given>
+      <when>the landing page loads</when>
+      <then>exactly 6 product cards are displayed</then>
+    </ac>
+    <ac id="2.1.5" title="Educational content renders">
+      <given>the landing page loads</given>
+      <then>nixtamalization educational content is visible</then>
+    </ac>
+    <ac id="2.1.6" title="Footer renders with navigation">
+      <given>the landing page loads</given>
+      <then>footer displays contact info and navigation links</then>
+    </ac>
+    <ac id="2.1.7" title="Page loads under 2 seconds">
+      <given>mobile 4G network conditions</given>
+      <when>navigating to /landing</when>
+      <then>page is interactive within 2 seconds</then>
+    </ac>
+    <ac id="2.1.8" title="Lighthouse score exceeds 85">
+      <given>a Lighthouse audit is run</given>
+      <then>Performance score is greater than 85</then>
+    </ac>
+    <ac id="2.1.9" title="No console errors">
+      <given>the landing page loads</given>
+      <then>browser console shows no errors or warnings</then>
+    </ac>
+    <ac id="2.1.10" title="Images load without layout shift">
+      <given>the landing page loads</given>
+      <then>all images appear without causing visible layout shifts (CLS less than 0.1)</then>
+    </ac>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>Story 2.1: Verify Landing Page Renders Correctly</section>
+        <snippet>Comprehensive AC specifications, performance targets (Lighthouse > 85, LCP < 2.5s, CLS < 0.1), component architecture, and test strategy for landing page verification.</snippet>
+      </doc>
+      <doc>
+        <path>docs/planning/epics/epic-2-landing-page-demo-ready.md</path>
+        <title>Epic 2: Landing Page Demo-Ready</title>
+        <section>Story 2.1</section>
+        <snippet>User story definition and acceptance criteria for verifying landing page renders correctly post-migration.</snippet>
+      </doc>
+      <doc>
+        <path>docs/planning/architecture/critical-architecture-decision-supabase-only-data-layer.md</path>
+        <title>ADR-001: Supabase-Only Data Layer</title>
+        <section>Architecture Decision</section>
+        <snippet>Supabase client is the exclusive data layer. Prisma removed. Native RLS security, direct PostgREST queries.</snippet>
+      </doc>
+      <doc>
+        <path>docs/planning/ux-design-specification/7-ux-pattern-decisions.md</path>
+        <title>UX Pattern Decisions</title>
+        <section>Button Hierarchy, Feedback Patterns</section>
+        <snippet>Primary CTA uses gold background (#ffbb1c). Loading uses skeleton loaders. Touch targets minimum 44x44px.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <file>
+        <path>src/app/landing/page.tsx</path>
+        <kind>page</kind>
+        <symbol>LandingPage</symbol>
+        <lines>1-48</lines>
+        <reason>Main Server Component orchestrating landing page, fetches 6 featured products from Supabase. Uses force-static for optimal performance.</reason>
+      </file>
+      <file>
+        <path>src/components/landing/HeroSection.tsx</path>
+        <kind>component</kind>
+        <symbol>HeroSection</symbol>
+        <lines>1-65</lines>
+        <reason>Hero section with "Nixtia" branding, gradient background, hero image, and "Shop Now" CTA linking to /store. AC-2.1.1, AC-2.1.2.</reason>
+      </file>
+      <file>
+        <path>src/components/landing/ValueProposition.tsx</path>
+        <kind>component</kind>
+        <symbol>ValueProposition</symbol>
+        <lines>1-58</lines>
+        <reason>Value proposition section with 3 benefit cards (Traditional Nixtamalization, Premium Quality, Artisan Craftsmanship). AC-2.1.3.</reason>
+      </file>
+      <file>
+        <path>src/components/landing/FeaturedProducts.tsx</path>
+        <kind>component</kind>
+        <symbol>FeaturedProducts</symbol>
+        <lines>1-95</lines>
+        <reason>Featured products grid receiving products prop. Displays up to 6 product cards with images, names, prices. AC-2.1.4.</reason>
+      </file>
+      <file>
+        <path>src/components/landing/EducationalContent.tsx</path>
+        <kind>component</kind>
+        <symbol>EducationalContent</symbol>
+        <lines>1-52</lines>
+        <reason>Nixtamalization educational section with image and explanation text. AC-2.1.5.</reason>
+      </file>
+      <file>
+        <path>src/components/landing/LandingFooter.tsx</path>
+        <kind>component</kind>
+        <symbol>LandingFooter</symbol>
+        <lines>1-122</lines>
+        <reason>Footer with CTA section, contact info (WhatsApp, email), quick links, and social media icons. AC-2.1.6.</reason>
+      </file>
+      <file>
+        <path>src/lib/supabase/server.ts</path>
+        <kind>service</kind>
+        <symbol>createClient</symbol>
+        <lines>1-29</lines>
+        <reason>Server-side Supabase client factory using @supabase/ssr. Uses NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.</reason>
+      </file>
+    </code>
+    <dependencies>
+      <ecosystem name="node" manifest="package.json">
+        <core>
+          <package name="next" version="16.0.3" purpose="App Router, Server Components, Image optimization" />
+          <package name="react" version="19.2.0" purpose="UI rendering" />
+          <package name="react-dom" version="19.2.0" purpose="DOM rendering" />
+          <package name="typescript" version="^5" purpose="Type safety" />
+        </core>
+        <supabase>
+          <package name="@supabase/supabase-js" version="^2.84.0" purpose="Supabase client for product queries" />
+          <package name="@supabase/ssr" version="^0.7.0" purpose="Server-side rendering support" />
+        </supabase>
+        <ui>
+          <package name="tailwindcss" version="^4" purpose="Utility-first CSS" />
+          <package name="lucide-react" version="^0.554.0" purpose="Icon library (social media, benefit icons)" />
+          <package name="clsx" version="^2.1.1" purpose="Conditional classNames" />
+          <package name="tailwind-merge" version="^3.4.0" purpose="Tailwind class merging" />
+          <package name="class-variance-authority" version="^0.7.1" purpose="Component variants (shadcn/ui)" />
+        </ui>
+        <testing>
+          <package name="vitest" version="^4.0.13" purpose="Unit/integration testing" />
+          <package name="@playwright/test" version="^1.49.1" purpose="E2E testing" />
+        </testing>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="architecture">
+      <rule>Supabase-only data layer (ADR-001). No Prisma. Direct PostgREST queries via Supabase client.</rule>
+    </constraint>
+    <constraint type="architecture">
+      <rule>Server Components for initial data fetch. Static generation preferred (export const dynamic = 'force-static').</rule>
+    </constraint>
+    <constraint type="styling">
+      <rule>shadcn/ui + Tailwind CSS for styling. Lucide React for icons.</rule>
+    </constraint>
+    <constraint type="styling">
+      <rule>Purple brand color scheme. Primary CTA gold (#ffbb1c) per UX spec.</rule>
+    </constraint>
+    <constraint type="performance">
+      <rule>Hero image uses priority flag for preloading. Product images use Next.js Image with lazy loading.</rule>
+    </constraint>
+    <constraint type="performance">
+      <rule>Target: Lighthouse greater than 85, LCP less than 2.5s, FCP less than 1.5s, CLS less than 0.1, TTI less than 3s, load less than 2s on mobile 4G.</rule>
+    </constraint>
+    <constraint type="verification">
+      <rule>This is a VERIFICATION story - no code changes expected. Goal is to validate post-migration state.</rule>
+    </constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>Product</name>
+      <kind>TypeScript interface</kind>
+      <signature>interface Product { id: string; name: string; description: string | null; price: number; image_url: string | null; }</signature>
+      <path>src/components/landing/FeaturedProducts.tsx:6-12</path>
+    </interface>
+    <interface>
+      <name>FeaturedProductsProps</name>
+      <kind>TypeScript interface</kind>
+      <signature>interface FeaturedProductsProps { products: Product[]; }</signature>
+      <path>src/components/landing/FeaturedProducts.tsx:14-16</path>
+    </interface>
+    <interface>
+      <name>Supabase Products Query</name>
+      <kind>PostgREST query</kind>
+      <signature>supabase.from('products').select('id, name, description, price, image_url').eq('is_active', true).order('created_at', { ascending: false }).limit(6)</signature>
+      <path>src/app/landing/page.tsx:24-29</path>
+    </interface>
+    <interface>
+      <name>createClient</name>
+      <kind>function</kind>
+      <signature>async function createClient(): Promise SupabaseClient</signature>
+      <path>src/lib/supabase/server.ts:4-29</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      This is a VERIFICATION story - testing is primarily manual inspection using browser DevTools. Unit tests (Vitest with jsdom) and E2E tests (Playwright) frameworks are configured but no existing tests for landing page. For verification stories, focus on: (1) Visual inspection in browser, (2) Lighthouse audit via Chrome DevTools, (3) Console error checking, (4) Network tab inspection for Supabase queries. Future E2E tests should use tests/e2e directory with Playwright. Mobile testing critical - Playwright configured with Pixel 5 and iPhone 13 devices.
+    </standards>
+    <locations>
+      <location>tests/e2e/ - Playwright E2E tests (to be created)</location>
+      <location>src/**/*.test.ts - Vitest unit tests (none exist yet)</location>
+      <location>vitest.config.ts - Vitest configuration (jsdom environment)</location>
+      <location>playwright.config.ts - Playwright configuration (mobile-first testing)</location>
+    </locations>
+    <ideas>
+      <idea ac="2.1.1,2.1.2">E2E test: Navigate to /landing, verify "Nixtia" h1 visible, click "Shop Now", verify URL is /store</idea>
+      <idea ac="2.1.3,2.1.5,2.1.6">E2E test: Verify all sections render (ValueProposition, EducationalContent, Footer) using section selectors</idea>
+      <idea ac="2.1.4">E2E test: Verify exactly 6 product cards display, verify product images/names/prices present</idea>
+      <idea ac="2.1.7,2.1.8">Manual: Run Lighthouse in Chrome DevTools, record Performance score. Target greater than 85.</idea>
+      <idea ac="2.1.9">Manual: Check browser console for errors after page load. No errors or warnings expected.</idea>
+      <idea ac="2.1.10">Manual: Verify CLS metric in Lighthouse audit. Target less than 0.1.</idea>
+      <idea ac="all">Cross-browser: Test in Chrome (primary) and Firefox (secondary) for consistent rendering</idea>
+      <idea ac="all">Mobile: Test with Pixel 5 and iPhone 13 device emulation in Playwright</idea>
+    </ideas>
+  </tests>
+</story-context>

@@ -39,7 +39,7 @@ export default function EducationalContent() {
 
           <div className="order-1 md:order-2 relative h-96 rounded-lg overflow-hidden shadow-xl">
             <Image
-              src="/nixtamalization-process.jpg"
+              src="/nixtamalization-process.svg"
               alt="Traditional nixtamalization process"
               fill
               className="object-cover"

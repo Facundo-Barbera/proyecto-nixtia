@@ -7,7 +7,7 @@ export default function HeroSection() {
     <header className="relative bg-gradient-to-br from-purple-600 via-purple-700 to-purple-900 text-white min-h-screen flex items-center">
       <div className="absolute inset-0 opacity-20">
         <Image
-          src="/hero-corn.jpg"
+          src="/hero-corn.svg"
           alt="Artisan nixtamalized corn products"
           fill
           className="object-cover"

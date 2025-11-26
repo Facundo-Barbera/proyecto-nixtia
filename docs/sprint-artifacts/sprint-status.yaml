@@ -48,10 +48,11 @@ development_status:
   # ============================================
   # Epic 2: Landing Page Demo-Ready
   # ============================================
-  epic-2: backlog
-  2-1-verify-landing-page-renders-correctly: backlog
+  epic-2: contexted
+  2-1-verify-landing-page-renders-correctly: in-progress
   2-2-add-social-media-links: backlog
   2-3-landing-page-polish-and-demo-ready-state: backlog
+  2-4-move-landing-page-to-root-url: backlog
   epic-2-retrospective: optional
 
   # ============================================
