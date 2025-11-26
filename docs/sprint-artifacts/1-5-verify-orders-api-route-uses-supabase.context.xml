@@ -1,0 +1,225 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>5</storyId>
+    <title>Verify Orders API Route Uses Supabase</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-25</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/1-5-verify-orders-api-route-uses-supabase.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>customer</asA>
+    <iWant>place orders that save to Supabase</iWant>
+    <soThat>checkout works end-to-end without Prisma dependencies</soThat>
+    <tasks>
+      <task id="1" ac="5.1">
+        <title>Update imports</title>
+        <subtasks>
+          <subtask>Remove `import { prisma } from '@/lib/prisma'`</subtask>
+          <subtask>Remove `import { Prisma } from '@prisma/client'`</subtask>
+          <subtask>Add `import { createClient } from '@/lib/supabase/server'`</subtask>
+        </subtasks>
+      </task>
+      <task id="2" ac="5.1,5.4">
+        <title>Migrate generateOrderNumber function</title>
+        <subtasks>
+          <subtask>Create Supabase client: `const supabase = await createClient()`</subtask>
+          <subtask>Replace prisma.orders.count() with Supabase count query</subtask>
+          <subtask>Handle error case for count query</subtask>
+          <subtask>Update increment calculation to use count value</subtask>
+        </subtasks>
+      </task>
+      <task id="3" ac="5.2,5.3,5.4">
+        <title>Migrate order creation</title>
+        <subtasks>
+          <subtask>Replace prisma.orders.create() with Supabase insert</subtask>
+          <subtask>Replace Prisma.Decimal with plain number</subtask>
+          <subtask>Replace Prisma.InputJsonValue with native JSON</subtask>
+        </subtasks>
+      </task>
+      <task id="4" ac="5.1">
+        <title>Update error handling</title>
+        <subtasks>
+          <subtask>Replace Prisma error handling with Supabase error handling</subtask>
+          <subtask>Add proper error checking after each Supabase query</subtask>
+          <subtask>Log Supabase errors with context</subtask>
+          <subtask>Return appropriate HTTP status for Supabase errors</subtask>
+        </subtasks>
+      </task>
+      <task id="5" ac="5.4">
+        <title>Update response formatting</title>
+        <subtasks>
+          <subtask>Update response to use Supabase column names (total_amount)</subtask>
+          <subtask>Remove .toString() from Decimal</subtask>
+          <subtask>Ensure response matches expected format for frontend</subtask>
+        </subtasks>
+      </task>
+      <task id="6" ac="5.5,5.6">
+        <title>Test checkout flow</title>
+        <subtasks>
+          <subtask>Run npm run dev</subtask>
+          <subtask>Add product to cart from store page</subtask>
+          <subtask>Navigate to checkout and complete order</subtask>
+          <subtask>Verify success page shows order details</subtask>
+          <subtask>Check Supabase dashboard - verify order in orders table</subtask>
+        </subtasks>
+      </task>
+      <task id="7" ac="5.1">
+        <title>Verify no Prisma references</title>
+        <subtasks>
+          <subtask>Run grep -r "prisma" src/app/api/orders/ - should return empty</subtask>
+          <subtask>Run grep -r "@prisma" src/app/api/orders/ - should return empty</subtask>
+        </subtasks>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-5.1">/api/orders/route.ts uses Supabase client (NOT Prisma)</criterion>
+    <criterion id="AC-5.2">Order creation inserts into orders table via Supabase</criterion>
+    <criterion id="AC-5.3">Order items stored in items_json column via Supabase (current schema uses JSON column, not separate table)</criterion>
+    <criterion id="AC-5.4">API returns order with generated ID and order number</criterion>
+    <criterion id="AC-5.5">Checkout flow completes end-to-end (add to cart -> checkout -> submit -> success)</criterion>
+    <criterion id="AC-5.6">Order appears in Supabase database after submission</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-1.md</path>
+        <title>Epic Technical Specification: Database Migration (Prisma -> Supabase)</title>
+        <section>AC-5: Orders API Verification (Story 1.5)</section>
+        <snippet>AC-5.1: /api/orders/route.ts uses Supabase client (NOT Prisma). AC-5.2: Order creation inserts into orders table via Supabase. AC-5.3: Order items stored in items_json column. AC-5.4: API returns order with generated ID.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-1.md</path>
+        <title>Epic Technical Specification: Database Migration (Prisma -> Supabase)</title>
+        <section>Data Models and Contracts - Orders Table</section>
+        <snippet>orders (id: UUID PRIMARY KEY, order_number: TEXT UNIQUE NOT NULL, customer_phone: TEXT NOT NULL, total_amount: DECIMAL(10,2) NOT NULL, payment_method: payment_method_enum, payment_status: payment_status_enum, order_status: order_status_enum, items_json: JSONB)</snippet>
+      </doc>
+      <doc>
+        <path>docs/planning/architecture/critical-architecture-decision-supabase-only-data-layer.md</path>
+        <title>Critical Architecture Decision: Supabase-Only Data Layer</title>
+        <section>Decision</section>
+        <snippet>Remove Prisma entirely, use Supabase client exclusively for all database operations. Native RLS Security, No Schema Drift, Simpler Architecture, Better Performance.</snippet>
+      </doc>
+      <doc>
+        <path>docs/planning/epics/epic-1-database-migration-prisma-supabase.md</path>
+        <title>Epic 1: Database Migration (Prisma -> Supabase)</title>
+        <section>Story 1.5: Verify Orders API Route Uses Supabase</section>
+        <snippet>Uses Supabase client (NOT Prisma), Creates order record in orders table, Returns order with generated ID. Test checkout flow end-to-end.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/1-4-migrate-admin-dashboard-to-supabase.md</path>
+        <title>Story 1.4: Migrate Admin Dashboard to Supabase</title>
+        <section>Dev Agent Record - Learnings</section>
+        <snippet>Pattern: Use createClient from @/lib/supabase/server. Query: supabase.from('table').select(...).order(). Insert: Use .insert({...}).select().single(). Error: Implement { data, error } pattern. Column names: Use Supabase names directly (total_amount not total).</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/app/api/orders/route.ts</path>
+        <kind>api-route</kind>
+        <symbol>POST /api/orders</symbol>
+        <lines>1-162</lines>
+        <reason>PRIMARY FILE TO MODIFY - Currently uses Prisma, must migrate to Supabase. Contains generateOrderNumber() and order creation logic.</reason>
+      </artifact>
+      <artifact>
+        <path>src/lib/supabase/server.ts</path>
+        <kind>service</kind>
+        <symbol>createClient</symbol>
+        <lines>1-29</lines>
+        <reason>REUSE - Server-side Supabase client factory. Import and use this instead of prisma.</reason>
+      </artifact>
+      <artifact>
+        <path>src/lib/validations/checkout.ts</path>
+        <kind>validation</kind>
+        <symbol>CheckoutFormSchema, PaymentMethodEnum</symbol>
+        <lines>1-52</lines>
+        <reason>UNCHANGED - Validation schema remains the same, only database access changes.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package>@supabase/supabase-js</package>
+        <version>^2.84.0</version>
+        <purpose>Supabase JavaScript client - use for all database operations</purpose>
+      </node>
+      <node>
+        <package>@supabase/ssr</package>
+        <version>^0.7.0</version>
+        <purpose>Server-side rendering support with cookies - used by createClient</purpose>
+      </node>
+      <node>
+        <package>zod</package>
+        <version>installed</version>
+        <purpose>Schema validation - keep existing validation unchanged</purpose>
+      </node>
+      <toRemove>
+        <package>@prisma/client</package>
+        <reason>Being removed in Epic 1 migration - do not use</reason>
+      </toRemove>
+      <toRemove>
+        <package>prisma</package>
+        <reason>Being removed in Epic 1 migration - do not use</reason>
+      </toRemove>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="architectural" source="ADR-001">All database queries MUST use createClient() from @/lib/supabase/server (never raw SQL or Prisma)</constraint>
+    <constraint type="security" source="Tech Spec">RLS policies enforced: Anonymous users CAN INSERT orders (guest checkout), CANNOT SELECT (orders private). API route can create orders without auth.</constraint>
+    <constraint type="pattern" source="Stories 1.2-1.4">Use { data, error } response pattern with console.error logging on failure</constraint>
+    <constraint type="schema" source="Tech Spec">Use Supabase column names directly: total_amount (not total), items_json (JSONB), created_at/updated_at as ISO strings</constraint>
+    <constraint type="type" source="Tech Spec">Supabase returns numbers as JavaScript numbers (not Prisma Decimal objects) - no .toString() needed for amounts</constraint>
+    <constraint type="response" source="Story">Response format must match frontend expectations - keep existing API contract structure</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>createClient</name>
+      <kind>function</kind>
+      <signature>async function createClient(): Promise&lt;SupabaseClient&gt;</signature>
+      <path>src/lib/supabase/server.ts</path>
+    </interface>
+    <interface>
+      <name>Supabase Count Query</name>
+      <kind>query-pattern</kind>
+      <signature>const { count, error } = await supabase.from('orders').select('*', { count: 'exact', head: true })</signature>
+      <path>Supabase JavaScript SDK</path>
+    </interface>
+    <interface>
+      <name>Supabase Insert with Return</name>
+      <kind>query-pattern</kind>
+      <signature>const { data, error } = await supabase.from('orders').insert({...}).select().single()</signature>
+      <path>Supabase JavaScript SDK</path>
+    </interface>
+    <interface>
+      <name>POST /api/orders</name>
+      <kind>REST endpoint</kind>
+      <signature>POST /api/orders { customerPhone: string, paymentMethod: enum, items: CartItem[] } => { success: boolean, order: Order }</signature>
+      <path>src/app/api/orders/route.ts</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>No automated test suite exists for this project. Testing is manual via browser DevTools and Supabase Dashboard. All verification is done through command-line grep checks and end-to-end manual checkout flow testing.</standards>
+    <locations>
+      <location>Manual: /store page (add to cart)</location>
+      <location>Manual: /checkout page (submit order)</location>
+      <location>Manual: Supabase Dashboard (verify order in orders table)</location>
+      <location>CLI: grep -r "prisma" src/app/api/orders/</location>
+    </locations>
+    <ideas>
+      <idea ac="AC-5.1">Verify grep -r "prisma" src/app/api/orders/ returns empty after migration</idea>
+      <idea ac="AC-5.1">Verify grep -r "@prisma" src/app/api/orders/ returns empty after migration</idea>
+      <idea ac="AC-5.2">POST to /api/orders with valid payload, verify order inserted in Supabase orders table</idea>
+      <idea ac="AC-5.3">Verify items_json column contains cart items as JSONB after order creation</idea>
+      <idea ac="AC-5.4">Verify response includes generated id and order_number in NX-YYYY-XXXXXX format</idea>
+      <idea ac="AC-5.5">E2E: Add product to cart -> Navigate to checkout -> Enter phone -> Select payment -> Submit -> Verify success page</idea>
+      <idea ac="AC-5.6">After E2E test, check Supabase Dashboard to confirm new order row exists with correct data</idea>
+    </ideas>
+  </tests>
+</story-context>

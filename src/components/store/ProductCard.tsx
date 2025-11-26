@@ -6,14 +6,13 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { formatPrice } from '@/lib/utils/formatPrice';
 import { useCartContext } from '@/contexts/CartContext';
-import { Decimal } from '@prisma/client/runtime/library';
 
 interface ProductCardProps {
   product: {
     id: string;
     name: string;
     description: string | null;
-    price: Decimal;
+    price: number;
     image_url: string | null;
   };
   priority?: boolean;

@@ -1,0 +1,76 @@
+# generated: 2025-11-25
+# project: proyecto-nixtia
+# tracking_system: file-system
+# story_location: {project-root}/docs/sprint-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic exists in epic file but not contexted
+#   - contexted: Next epic tech context created by *epic-tech-context (required)
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - drafted: Story file created in stories folder by *create-story
+#   - ready-for-dev: Draft approved and story context created by *story-ready
+#   - in-progress: Developer actively working on implementation by *dev-story
+#   - review: Implementation complete, ready for review by *code-review
+#   - done: Story completed by *story-done
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - completed: Retrospective has been done by *retrospective
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epics should be 'contexted' before stories can be 'drafted'
+# - SM typically drafts next story ONLY after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', dev reviews, then Dev moves to 'done'
+
+generated: 2025-11-25
+project: proyecto-nixtia
+tracking_system: file-system
+story_location: "{project-root}/docs/sprint-artifacts"
+
+development_status:
+  # ============================================
+  # Epic 1: Database Migration (Prisma -> Supabase)
+  # ============================================
+  epic-1: contexted
+  1-1-remove-prisma-dependencies-and-files: done
+  1-2-migrate-store-page-to-supabase: done
+  1-3-migrate-landing-page-to-supabase: done
+  1-4-migrate-admin-dashboard-to-supabase: done
+  1-5-verify-orders-api-route-uses-supabase: done
+  1-6-build-verification-and-clean-state: done
+  epic-1-retrospective: done
+
+  # ============================================
+  # Epic 2: Landing Page Demo-Ready
+  # ============================================
+  epic-2: backlog
+  2-1-verify-landing-page-renders-correctly: backlog
+  2-2-add-social-media-links: backlog
+  2-3-landing-page-polish-and-demo-ready-state: backlog
+  epic-2-retrospective: optional
+
+  # ============================================
+  # Epic 3: Store Experience Completion
+  # ============================================
+  epic-3: backlog
+  3-1-product-detail-page: backlog
+  3-2-product-card-links-to-detail-page: backlog
+  3-3-add-to-cart-from-detail-page: backlog
+  3-4-verify-duplicate-order-prevention: backlog
+  epic-3-retrospective: optional
+
+  # ============================================
+  # Epic 4: Admin Dashboard Completion
+  # ============================================
+  epic-4: backlog
+  4-1-dashboard-layout-with-kpi-cards: backlog
+  4-2-revenue-chart-component: backlog
+  4-3-date-range-filter-for-revenue: backlog
+  4-4-payment-method-breakdown-chart: backlog
+  4-5-dashboard-layout-integration: backlog
+  epic-4-retrospective: optional

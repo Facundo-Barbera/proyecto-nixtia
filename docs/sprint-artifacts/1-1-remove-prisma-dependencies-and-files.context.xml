@@ -1,0 +1,211 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>1</storyId>
+    <title>Remove Prisma Dependencies and Files</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-25</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/1-1-remove-prisma-dependencies-and-files.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>developer</asA>
+    <iWant>remove all Prisma-related code and dependencies</iWant>
+    <soThat>the codebase is clean and ready for Supabase-only data access</soThat>
+    <tasks>
+      <task id="1" ac="1.1">
+        <title>Delete Prisma client file</title>
+        <subtasks>
+          <subtask>Delete src/lib/prisma.ts</subtask>
+          <subtask>Verify file no longer exists with ls src/lib/prisma.ts</subtask>
+        </subtasks>
+      </task>
+      <task id="2" ac="1.2,1.3,1.7">
+        <title>Remove Prisma dependencies from package.json</title>
+        <subtasks>
+          <subtask>Remove @prisma/client from dependencies section</subtask>
+          <subtask>Remove prisma from dependencies section</subtask>
+          <subtask>Remove "prisma" config section if present (seed script)</subtask>
+          <subtask>Save package.json</subtask>
+        </subtasks>
+      </task>
+      <task id="3" ac="1.5">
+        <title>Update build script</title>
+        <subtasks>
+          <subtask>Edit package.json "build" script</subtask>
+          <subtask>Change from "prisma generate &amp;&amp; next build" to "next build"</subtask>
+        </subtasks>
+      </task>
+      <task id="4" ac="1.4">
+        <title>Delete Prisma directory</title>
+        <subtasks>
+          <subtask>Delete entire prisma/ directory (includes schema.prisma)</subtask>
+          <subtask>Verify directory no longer exists with ls -d prisma/</subtask>
+        </subtasks>
+      </task>
+      <task id="5" ac="1.6">
+        <title>Update dependencies and verify</title>
+        <subtasks>
+          <subtask>Run npm install to update package-lock.json</subtask>
+          <subtask>Verify npm install completes with exit code 0</subtask>
+          <subtask>Verify node_modules/.prisma/ directory no longer exists</subtask>
+        </subtasks>
+      </task>
+      <task id="6">
+        <title>Verification checks</title>
+        <subtasks>
+          <subtask>Run grep -r "@prisma" package.json - expect no results</subtask>
+          <subtask>Run ls src/lib/prisma.ts - expect "No such file"</subtask>
+          <subtask>Run ls -d prisma/ - expect "No such directory"</subtask>
+          <subtask>Note: TypeScript errors in store/landing/admin pages are EXPECTED (fixed by Stories 1.2-1.4)</subtask>
+        </subtasks>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1.1">src/lib/prisma.ts file is deleted from the codebase</criterion>
+    <criterion id="AC-1.2">@prisma/client is removed from package.json dependencies</criterion>
+    <criterion id="AC-1.3">prisma is removed from package.json dependencies</criterion>
+    <criterion id="AC-1.4">prisma/ directory is deleted (including schema.prisma and any migrations/seed files)</criterion>
+    <criterion id="AC-1.5">Build script updated to "build": "next build" (remove prisma generate &amp;&amp; prefix)</criterion>
+    <criterion id="AC-1.6">npm install completes successfully after removal</criterion>
+    <criterion id="AC-1.7">"prisma" config section removed from package.json (if exists)</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/planning/architecture/critical-architecture-decision-supabase-only-data-layer.md</path>
+        <title>ADR-001: Supabase-Only Data Layer</title>
+        <section>Critical Architecture Decision</section>
+        <snippet>Decision to remove Prisma entirely due to RLS bypass, schema drift conflicts. Mandates Supabase client exclusively for all database operations.</snippet>
+      </doc>
+      <doc>
+        <path>docs/planning/architecture/implementation-patterns.md</path>
+        <title>Implementation Patterns</title>
+        <section>Database Query Pattern (Supabase-Only)</section>
+        <snippet>CRITICAL: Never use Prisma client - use Supabase client exclusively. Server-side uses createClient from @/lib/supabase/server.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/epic-1/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>AC-1: Prisma Removal (Story 1.1)</section>
+        <snippet>Detailed acceptance criteria AC-1.1 through AC-1.7. Files to delete: src/lib/prisma.ts, prisma/ directory. Build script change required.</snippet>
+      </doc>
+      <doc>
+        <path>docs/planning/epics/epic-1-database-migration-prisma-supabase.md</path>
+        <title>Epic 1: Database Migration (Prisma -> Supabase)</title>
+        <section>Story 1.1: Remove Prisma Dependencies and Files</section>
+        <snippet>First blocking story. This will BREAK the app temporarily - intentional. TypeScript errors in pages fixed by Stories 1.2-1.4.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/lib/prisma.ts</path>
+        <kind>lib</kind>
+        <symbol>prisma (PrismaClient singleton)</symbol>
+        <lines>1-14</lines>
+        <reason>Target file to DELETE - Prisma client singleton that bypasses RLS</reason>
+      </artifact>
+      <artifact>
+        <path>prisma/schema.prisma</path>
+        <kind>config</kind>
+        <symbol>Prisma schema</symbol>
+        <reason>Target directory to DELETE - entire prisma/ folder with schema</reason>
+      </artifact>
+      <artifact>
+        <path>package.json</path>
+        <kind>config</kind>
+        <symbol>dependencies, scripts, prisma config</symbol>
+        <lines>7,25,35,63-65</lines>
+        <reason>Target file to MODIFY - remove @prisma/client, prisma deps, update build script, remove prisma config section</reason>
+      </artifact>
+      <artifact>
+        <path>src/lib/supabase/server.ts</path>
+        <kind>lib</kind>
+        <symbol>createClient (async function)</symbol>
+        <lines>1-29</lines>
+        <reason>KEEP - Replacement for Prisma. Server-side Supabase client with cookie-based auth. Used by subsequent migration stories.</reason>
+      </artifact>
+      <artifact>
+        <path>src/lib/supabase/client.ts</path>
+        <kind>lib</kind>
+        <symbol>createClient (function)</symbol>
+        <lines>1-8</lines>
+        <reason>KEEP - Browser-side Supabase client for client components. Already exists, no changes needed.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <toRemove>
+        <package name="@prisma/client" version="^6.19.0" location="dependencies">Prisma ORM client - conflicts with RLS</package>
+        <package name="prisma" version="^6.19.0" location="dependencies">Prisma CLI - no longer needed</package>
+      </toRemove>
+      <toKeep framework="Supabase">
+        <package name="@supabase/supabase-js" version="^2.84.0">Supabase JavaScript client</package>
+        <package name="@supabase/ssr" version="^0.7.0">Server-side rendering support with cookies</package>
+        <package name="supabase" version="^2.61.2" dev="true">CLI for type generation</package>
+      </toKeep>
+      <framework>
+        <package name="next" version="16.0.3">Next.js App Router</package>
+        <package name="react" version="19.2.0">React framework</package>
+        <package name="typescript" version="^5">TypeScript compiler</package>
+      </framework>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="architecture">All database queries MUST use createClient() from @/lib/supabase/server (server) or @/lib/supabase/client (client) - NEVER Prisma</constraint>
+    <constraint type="security">Supabase queries respect RLS policies automatically - critical improvement over Prisma which bypassed RLS</constraint>
+    <constraint type="expected-breakage">This story will BREAK the app temporarily. Import errors in store/landing/admin pages are EXPECTED and fixed by Stories 1.2-1.4. DO NOT attempt to fix these in this story.</constraint>
+    <constraint type="build">Build script must be updated BEFORE running npm install to avoid prisma generate errors</constraint>
+    <constraint type="verification">After completion, grep -r "prisma" src/ must return no results</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>createClient (server)</name>
+      <kind>async function</kind>
+      <signature>async function createClient(): Promise&lt;SupabaseClient&gt;</signature>
+      <path>src/lib/supabase/server.ts</path>
+      <note>Use in Server Components and Route Handlers. Returns authenticated client with cookie-based session.</note>
+    </interface>
+    <interface>
+      <name>createClient (client)</name>
+      <kind>function</kind>
+      <signature>function createClient(): SupabaseClient</signature>
+      <path>src/lib/supabase/client.ts</path>
+      <note>Use in Client Components ('use client'). Returns browser-side client.</note>
+    </interface>
+    <interface>
+      <name>Supabase Query Pattern</name>
+      <kind>API pattern</kind>
+      <signature>const { data, error } = await supabase.from('table').select('*')</signature>
+      <note>All Supabase queries return { data, error } - MUST handle error case</note>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      This is a removal-only story with no new code. Testing is via verification commands and manual checks.
+      Build verification (npm run build) must pass after changes. TypeScript errors in pages using Prisma are
+      EXPECTED and should NOT be fixed in this story - they are addressed by Stories 1.2-1.4.
+    </standards>
+    <locations>
+      <location>Command-line grep verification: grep -r "prisma" src/</location>
+      <location>Command-line file check: ls src/lib/prisma.ts, ls -d prisma/</location>
+      <location>npm commands: npm install (exit code 0)</location>
+    </locations>
+    <ideas>
+      <idea ac="AC-1.1">ls src/lib/prisma.ts returns "No such file or directory"</idea>
+      <idea ac="AC-1.2">grep "@prisma/client" package.json returns empty</idea>
+      <idea ac="AC-1.3">grep '"prisma":' package.json returns empty (checking dependencies)</idea>
+      <idea ac="AC-1.4">ls -d prisma/ returns "No such file or directory"</idea>
+      <idea ac="AC-1.5">grep '"build":' package.json shows "next build" without "prisma generate"</idea>
+      <idea ac="AC-1.6">npm install completes with exit code 0</idea>
+      <idea ac="AC-1.7">grep '"prisma"' package.json returns empty (checking config section)</idea>
+      <idea general="true">node_modules/.prisma/ directory no longer exists after npm install</idea>
+    </ideas>
+  </tests>
+</story-context>

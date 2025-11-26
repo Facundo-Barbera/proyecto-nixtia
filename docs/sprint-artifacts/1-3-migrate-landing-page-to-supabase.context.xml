@@ -1,0 +1,208 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>3</storyId>
+    <title>Migrate Landing Page to Supabase</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-25</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/1-3-migrate-landing-page-to-supabase.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>visitor</asA>
+    <iWant>view the landing page with featured products fetched from Supabase</iWant>
+    <soThat>I can see Nixtia's product offerings without Prisma dependencies and benefit from proper RLS security</soThat>
+    <tasks>
+      <task id="1" ac="3.1">
+        <title>Update imports</title>
+        <subtasks>
+          <subtask>Remove `import { prisma } from '@/lib/prisma'`</subtask>
+          <subtask>Add `import { createClient } from '@/lib/supabase/server'`</subtask>
+        </subtasks>
+      </task>
+      <task id="2" ac="3.2">
+        <title>Migrate query to Supabase</title>
+        <subtasks>
+          <subtask>Create Supabase client: `const supabase = await createClient()`</subtask>
+          <subtask>Replace Prisma query with Supabase query using `.from('products').select(...).eq('is_active', true).order('created_at', { ascending: false }).limit(6)`</subtask>
+          <subtask>CRITICAL: Use column `is_active` (Supabase) NOT `active` (Prisma schema)</subtask>
+        </subtasks>
+      </task>
+      <task id="3" ac="3.3">
+        <title>Add error handling</title>
+        <subtasks>
+          <subtask>Check for `error` in Supabase response</subtask>
+          <subtask>Log error to console: `console.error('Failed to fetch featured products:', error.message)`</subtask>
+          <subtask>Default to empty array: `const productList = products ?? []`</subtask>
+          <subtask>Gracefully handle empty/error state (hide section or show placeholder)</subtask>
+        </subtasks>
+      </task>
+      <task id="4" ac="3.4,3.6">
+        <title>Preserve existing behavior</title>
+        <subtasks>
+          <subtask>Verify `dynamic = 'force-static'` export is preserved</subtask>
+          <subtask>Verify FeaturedProducts component receives products array correctly</subtask>
+          <subtask>Verify existing UI structure and component hierarchy unchanged</subtask>
+        </subtasks>
+      </task>
+      <task id="5" ac="3.5">
+        <title>Manual verification</title>
+        <subtasks>
+          <subtask>Run `npm run dev`</subtask>
+          <subtask>Navigate to `/landing` - verify featured products display</subtask>
+          <subtask>Check Network tab - request goes to Supabase PostgREST</subtask>
+        </subtasks>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-3.1">src/app/landing/page.tsx imports createClient from @/lib/supabase/server</criterion>
+    <criterion id="AC-3.2">Landing page uses Supabase query with .limit(6) for featured products</criterion>
+    <criterion id="AC-3.3">Error handling gracefully hides section or shows placeholder on failure</criterion>
+    <criterion id="AC-3.4">FeaturedProducts component receives products array correctly</criterion>
+    <criterion id="AC-3.5">Landing page renders correctly with real product data</criterion>
+    <criterion id="AC-3.6">dynamic = 'force-static' setting preserved</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/planning/architecture/critical-architecture-decision-supabase-only-data-layer.md</path>
+        <title>ADR-001: Supabase-Only Data Layer</title>
+        <section>Critical Architecture Decision</section>
+        <snippet>Remove Prisma entirely, use Supabase client exclusively. Supabase client respects RLS policies. Migration requires replacing imports and query syntax.</snippet>
+      </doc>
+      <doc>
+        <path>docs/planning/architecture/data-architecture.md</path>
+        <title>Data Architecture</title>
+        <section>Database Schema / RLS Policies</section>
+        <snippet>Products table uses `is_active` (not `active`). RLS policy: "Public can view active products" USING (is_active = true). Supabase client automatically enforces RLS.</snippet>
+      </doc>
+      <doc>
+        <path>docs/planning/architecture/implementation-patterns.md</path>
+        <title>Implementation Patterns</title>
+        <section>Database Query Pattern (Supabase-Only)</section>
+        <snippet>Server-side: import createClient from @/lib/supabase/server, await createClient(), use { data, error } pattern. NEVER use Prisma client.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-1.md</path>
+        <title>Epic Technical Specification: Database Migration</title>
+        <section>AC-3: Landing Page Migration (Story 1.3)</section>
+        <snippet>AC-3.1-3.6 define requirements. Query pattern: supabase.from('products').select(...).eq('is_active', true).limit(6). Preserve dynamic='force-static'.</snippet>
+      </doc>
+      <doc>
+        <path>docs/planning/epics/epic-1-database-migration-prisma-supabase.md</path>
+        <title>Epic 1: Database Migration</title>
+        <section>Story 1.3: Migrate Landing Page to Supabase</section>
+        <snippet>User story and AC definitions. Featured products section shows max 6 products. Keep existing component structure unchanged.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/app/landing/page.tsx</path>
+        <kind>page</kind>
+        <symbol>LandingPage</symbol>
+        <lines>1-38</lines>
+        <reason>Primary file to modify - currently imports prisma, needs migration to Supabase. Contains Prisma query at lines 23-27.</reason>
+      </artifact>
+      <artifact>
+        <path>src/components/landing/FeaturedProducts.tsx</path>
+        <kind>component</kind>
+        <symbol>FeaturedProducts</symbol>
+        <lines>1-93</lines>
+        <reason>Receives products array. CRITICAL: Line 5 imports Decimal from @prisma/client - this must be removed and price type changed to number.</reason>
+      </artifact>
+      <artifact>
+        <path>src/lib/supabase/server.ts</path>
+        <kind>service</kind>
+        <symbol>createClient</symbol>
+        <lines>1-29</lines>
+        <reason>Supabase server client - REUSE, do not recreate. Already exists with cookie-based auth support.</reason>
+      </artifact>
+      <artifact>
+        <path>src/app/store/page.tsx</path>
+        <kind>page</kind>
+        <symbol>StorePage</symbol>
+        <lines>1-61</lines>
+        <reason>Reference implementation - Story 1.2 already migrated this page. Shows correct Supabase query pattern with is_active and error handling.</reason>
+      </artifact>
+      <artifact>
+        <path>src/components/store/ProductCard.tsx</path>
+        <kind>component</kind>
+        <symbol>ProductCard</symbol>
+        <reason>Reference - already uses number type for price (fixed in Story 1.2). Shows correct type pattern.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package>@supabase/supabase-js</package>
+        <version>^2.84.0</version>
+      </node>
+      <node>
+        <package>@supabase/ssr</package>
+        <version>^0.7.0</version>
+      </node>
+      <node>
+        <package>next</package>
+        <version>16.0.3</version>
+      </node>
+      <devNode>
+        <package>supabase</package>
+        <version>^2.61.2</version>
+        <note>CLI for type generation</note>
+      </devNode>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="data-layer">Use Supabase client exclusively - NEVER use Prisma (per ADR-001)</constraint>
+    <constraint type="column-mapping">CRITICAL: Use `is_active` column name (Supabase), NOT `active` (Prisma schema mismatch)</constraint>
+    <constraint type="export-preservation">Preserve `dynamic = 'force-static'` export in landing page</constraint>
+    <constraint type="error-handling">All Supabase queries MUST handle { data, error } response pattern</constraint>
+    <constraint type="type-safety">FeaturedProducts component price type must be `number`, not Prisma `Decimal`</constraint>
+    <constraint type="reuse">DO NOT recreate existing interfaces - use createClient from @/lib/supabase/server</constraint>
+    <constraint type="rls">Queries respect RLS automatically - explicit is_active filter for clarity and consistency</constraint>
+    <constraint type="component-structure">Keep existing UI structure and component hierarchy unchanged</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>createClient</name>
+      <kind>function signature</kind>
+      <signature>async function createClient(): Promise&lt;SupabaseClient&gt;</signature>
+      <path>src/lib/supabase/server.ts</path>
+    </interface>
+    <interface>
+      <name>Supabase Products Query</name>
+      <kind>query pattern</kind>
+      <signature>supabase.from('products').select('id, name, description, price, image_url').eq('is_active', true).order('created_at', { ascending: false }).limit(6)</signature>
+      <path>N/A - pattern to implement</path>
+    </interface>
+    <interface>
+      <name>FeaturedProductsProps</name>
+      <kind>TypeScript interface</kind>
+      <signature>interface FeaturedProductsProps { products: Product[] } where Product = { id: string; name: string; description: string | null; price: number; image_url: string | null }</signature>
+      <path>src/components/landing/FeaturedProducts.tsx</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>This is a migration epic with no new automated tests required. Manual smoke testing validates the migration. Future epics may add Playwright E2E tests. Vitest is available for unit tests. All testing follows the test strategy in tech-spec-epic-1.md.</standards>
+    <locations>
+      <location>Manual browser testing at /landing route</location>
+      <location>Network tab inspection for Supabase PostgREST requests</location>
+      <location>grep verification: `grep -r "prisma" src/app/landing/` should return empty</location>
+    </locations>
+    <ideas>
+      <idea ac="AC-3.1">Verify import statement: grep "createClient" src/app/landing/page.tsx returns match</idea>
+      <idea ac="AC-3.1">Verify no Prisma: grep "prisma" src/app/landing/page.tsx returns empty</idea>
+      <idea ac="AC-3.2">Verify .limit(6): grep "limit(6)" src/app/landing/page.tsx returns match</idea>
+      <idea ac="AC-3.3">Simulate error: temporarily break query and verify graceful handling</idea>
+      <idea ac="AC-3.4">Visual test: verify FeaturedProducts renders 6 products correctly</idea>
+      <idea ac="AC-3.5">E2E test: navigate to /landing, verify products display with correct data</idea>
+      <idea ac="AC-3.6">Code review: verify dynamic='force-static' export exists</idea>
+    </ideas>
+  </tests>
+</story-context>

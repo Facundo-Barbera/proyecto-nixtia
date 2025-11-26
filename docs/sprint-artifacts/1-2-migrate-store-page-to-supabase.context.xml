@@ -1,0 +1,153 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>2</storyId>
+    <title>Migrate Store Page to Supabase</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-25</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/1-2-migrate-store-page-to-supabase.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>customer</asA>
+    <iWant>browse products fetched from Supabase</iWant>
+    <soThat>I can shop without Prisma dependencies and benefit from proper RLS security</soThat>
+    <tasks>
+      <task id="1" title="Update imports" ac="2.1">
+        <subtask>Remove `import { prisma } from '@/lib/prisma'`</subtask>
+        <subtask>Add `import { createClient } from '@/lib/supabase/server'`</subtask>
+      </task>
+      <task id="2" title="Migrate query to Supabase" ac="2.2">
+        <subtask>Create Supabase client: `const supabase = await createClient()`</subtask>
+        <subtask>Replace Prisma query with Supabase query</subtask>
+        <subtask>Note: Column is `is_active` (Supabase) not `active` (Prisma schema)</subtask>
+      </task>
+      <task id="3" title="Add error handling" ac="2.3">
+        <subtask>Check for `error` in Supabase response</subtask>
+        <subtask>Log error to console with details</subtask>
+        <subtask>Default to empty array if error or null data</subtask>
+      </task>
+      <task id="4" title="Preserve existing behavior" ac="2.5, 2.6">
+        <subtask>Verify `revalidate = 300` export is preserved</subtask>
+        <subtask>Verify empty state UI renders when `productList.length === 0`</subtask>
+        <subtask>Verify ProductCard component receives products correctly</subtask>
+      </task>
+      <task id="5" title="Manual verification" ac="2.4">
+        <subtask>Run `npm run dev`</subtask>
+        <subtask>Navigate to `/store`</subtask>
+        <subtask>Verify products display from Supabase database</subtask>
+        <subtask>Check Network tab - request goes to Supabase PostgREST</subtask>
+        <subtask>Test empty state by temporarily filtering all products</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-2.1">src/app/store/page.tsx imports createClient from @/lib/supabase/server</criterion>
+    <criterion id="AC-2.2">Store page uses Supabase query: supabase.from('products').select(...).eq('is_active', true)</criterion>
+    <criterion id="AC-2.3">Error handling implemented for Supabase { data, error } response pattern</criterion>
+    <criterion id="AC-2.4">Products display correctly when app runs at /store</criterion>
+    <criterion id="AC-2.5">Empty state handling preserved from original implementation</criterion>
+    <criterion id="AC-2.6">revalidate = 300 ISR caching setting preserved</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/sprint-artifacts/tech-spec-epic-1.md" title="Epic 1 Technical Specification" section="AC-2: Store Page Migration">
+        Detailed acceptance criteria for Store Page migration including Supabase query patterns, error handling requirements, and verification steps.
+      </doc>
+      <doc path="docs/planning/epics/epic-1-database-migration-prisma-supabase.md" title="Epic 1: Database Migration" section="Story 1.2">
+        Epic definition with story context, prerequisites (Story 1.1 must complete first), and user value statement.
+      </doc>
+      <doc path="docs/planning/architecture/critical-architecture-decision-supabase-only-data-layer.md" title="ADR-001: Supabase-Only Data Layer" section="Migration Required">
+        Mandates removal of Prisma and exclusive use of Supabase client. Documents rationale: RLS security, no schema drift, simpler architecture.
+      </doc>
+      <doc path="docs/planning/architecture/data-architecture.md" title="Data Architecture" section="Products Table">
+        Products table schema with columns: id, name, description, price, image_url, is_active, created_at, updated_at. RLS policy allows public read of active products.
+      </doc>
+      <doc path="docs/planning/architecture/security-architecture.md" title="Security Architecture" section="RLS Enforcement">
+        All Supabase queries respect Row Level Security policies. Public queries limited to is_active=true products.
+      </doc>
+    </docs>
+
+    <code>
+      <artifact path="src/app/store/page.tsx" kind="page" symbol="StorePage" lines="1-58" reason="PRIMARY FILE TO MODIFY - Currently uses Prisma import and query that must be migrated to Supabase">
+        <currentImport>import { prisma } from '@/lib/prisma'</currentImport>
+        <currentQuery>prisma.products.findMany({ where: { active: true }, orderBy: { created_at: 'desc' } })</currentQuery>
+        <note>Uses field 'active' but Supabase table uses 'is_active'</note>
+      </artifact>
+      <artifact path="src/lib/supabase/server.ts" kind="utility" symbol="createClient" lines="1-29" reason="SUPABASE CLIENT - Use this to replace Prisma. Already configured with SSR cookie-based auth.">
+        <signature>export async function createClient(): Promise&lt;SupabaseClient&gt;</signature>
+        <note>Server-side client with cookie-based auth handling</note>
+      </artifact>
+      <artifact path="src/components/store/ProductCard.tsx" kind="component" symbol="ProductCard" lines="1-105" reason="RELATED COMPONENT - Uses Prisma Decimal type import that may need attention">
+        <issue>Line 9 imports Decimal from @prisma/client/runtime/library - may need type adjustment</issue>
+        <props>product: { id, name, description, price, image_url }</props>
+      </artifact>
+    </code>
+
+    <dependencies>
+      <ecosystem name="node">
+        <package name="@supabase/supabase-js" version="^2.84.0" purpose="Supabase JavaScript client" />
+        <package name="@supabase/ssr" version="^0.7.0" purpose="Server-side rendering with cookie auth" />
+        <package name="next" version="16.0.3" purpose="React framework with App Router" />
+        <package name="react" version="19.2.0" purpose="UI library" />
+        <package name="zod" version="^4.1.13" purpose="Schema validation" />
+      </ecosystem>
+      <devDependencies>
+        <package name="supabase" version="^2.61.2" purpose="CLI for type generation" />
+        <package name="vitest" version="^4.0.13" purpose="Unit testing" />
+        <package name="@playwright/test" version="^1.49.1" purpose="E2E testing" />
+        <package name="typescript" version="^5" purpose="Type checking" />
+      </devDependencies>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint source="ADR-001">All database queries MUST use createClient() from Supabase, never raw SQL or Prisma</constraint>
+    <constraint source="Tech Spec">Server components MUST use @/lib/supabase/server (cookie-based auth)</constraint>
+    <constraint source="Tech Spec">Error handling MUST use Supabase { data, error } response pattern</constraint>
+    <constraint source="Tech Spec">ISR caching settings (revalidate = 300) MUST be preserved</constraint>
+    <constraint source="Data Architecture">Column name is 'is_active' in Supabase, not 'active' as in Prisma schema</constraint>
+    <constraint source="Architecture">RLS policy automatically filters to is_active=true, but explicit filter recommended for clarity</constraint>
+    <constraint source="Story 1.1 Dependency">Prisma files already removed by Story 1.1 - import will fail until migrated</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="createClient" kind="function" path="src/lib/supabase/server.ts">
+      <signature>export async function createClient(): Promise&lt;SupabaseClient&gt;</signature>
+      <usage>const supabase = await createClient()</usage>
+    </interface>
+    <interface name="Supabase Products Query" kind="REST/PostgREST">
+      <signature>supabase.from('products').select('id, name, description, price, image_url').eq('is_active', true).order('created_at', { ascending: false })</signature>
+      <response>{ data: Product[] | null, error: PostgrestError | null }</response>
+    </interface>
+    <interface name="ProductCard Props" kind="component" path="src/components/store/ProductCard.tsx">
+      <signature>{ product: { id: string, name: string, description: string | null, price: number, image_url: string | null }, priority?: boolean }</signature>
+      <note>price should be number type when using Supabase (not Prisma Decimal)</note>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Manual testing is the primary verification method for this migration epic. Unit tests with Vitest are available but no existing tests for store page. E2E tests with Playwright can verify full page functionality. All Supabase queries should be tested manually via browser DevTools Network tab to confirm PostgREST requests.
+    </standards>
+    <locations>
+      <location>No existing tests for src/app/store/page.tsx</location>
+      <location>Unit tests: vitest.config.ts configured, run with `npm run test`</location>
+      <location>E2E tests: playwright.config.ts configured, run with `npm run test:e2e`</location>
+    </locations>
+    <ideas>
+      <idea ac="AC-2.1">Grep test: `grep "createClient" src/app/store/page.tsx` returns match</idea>
+      <idea ac="AC-2.1">Grep test: `grep "prisma" src/app/store/page.tsx` returns empty</idea>
+      <idea ac="AC-2.2">Code review: Verify Supabase query uses .eq('is_active', true) not .eq('active', true)</idea>
+      <idea ac="AC-2.3">Code review: Verify error handling checks for error before using data</idea>
+      <idea ac="AC-2.4">Manual: Navigate to /store, verify products display</idea>
+      <idea ac="AC-2.4">Manual: Check Network tab - request should go to Supabase PostgREST endpoint</idea>
+      <idea ac="AC-2.5">Manual: Temporarily filter all products, verify empty state UI renders</idea>
+      <idea ac="AC-2.6">Code review: Verify `export const revalidate = 300` is present</idea>
+      <idea ac="AC-2.3">E2E: Playwright test could simulate Supabase error and verify graceful handling</idea>
+    </ideas>
+  </tests>
+</story-context>

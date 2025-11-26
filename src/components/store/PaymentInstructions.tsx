@@ -69,7 +69,7 @@ export default function PaymentInstructions({
 
           <Alert>
             <AlertDescription>
-              <strong>Instructions:</strong> Transfer the total amount and send confirmation via WhatsApp using the "Contact Us" button below.
+              <strong>Instructions:</strong> Transfer the total amount and send confirmation via WhatsApp using the &quot;Contact Us&quot; button below.
             </AlertDescription>
           </Alert>
         </div>

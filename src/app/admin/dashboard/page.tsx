@@ -1,6 +1,6 @@
 import { LogoutButton } from '@/components/admin/LogoutButton'
 import { TransactionsTable } from '@/components/admin/TransactionsTable'
-import { prisma } from '@/lib/prisma'
+import { createClient } from '@/lib/supabase/server'
 
 // AC-3.5.3: Revalidate every 60 seconds
 export const revalidate = 60
@@ -12,12 +12,20 @@ export const revalidate = 60
  * AC-3.5.3: Data Fetching (Server Component)
  */
 export default async function AdminDashboardPage() {
-  // AC-3.5.3: Fetch orders via Prisma in Server Component
-  // Query: findMany({ orderBy: { created_at: 'desc' }, take: 100 })
-  const orders = await prisma.orders.findMany({
-    orderBy: { created_at: 'desc' },
-    take: 100,
-  })
+  // AC-4.2: Fetch orders via Supabase in Server Component
+  const supabase = await createClient()
+  const { data: orders, error } = await supabase
+    .from('orders')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(100)
+
+  // AC-4.3: Error handling for failed queries
+  if (error) {
+    console.error('Failed to fetch orders:', error.message)
+  }
+
+  const orderList = orders ?? []
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -67,7 +75,7 @@ export default async function AdminDashboardPage() {
         </div>
 
         {/* AC-3.5.1: TransactionsTable component displays below heading */}
-        <TransactionsTable orders={orders} />
+        <TransactionsTable orders={orderList} />
       </main>
     </div>
   )

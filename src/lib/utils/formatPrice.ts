@@ -1,12 +1,10 @@
-import { Decimal } from '@prisma/client/runtime/library';
-
 /**
  * Format a price value as Mexican Peso (MXN) currency
- * @param price - The price value to format (can be number, string, or Prisma Decimal)
+ * @param price - The price value to format (can be number or string)
  * @returns Formatted price string (e.g., "$45.00 MXN")
  */
 export function formatPrice(
-  price: number | string | Decimal | null | undefined
+  price: number | string | null | undefined
 ): string {
   if (price === null || price === undefined) {
     return '$0.00 MXN';

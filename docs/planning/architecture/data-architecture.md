@@ -111,7 +111,7 @@ CREATE POLICY "Admins can view themselves"
 1. **Customer Purchase Flow:**
    - Browse products (public read via RLS)
    - Add to cart (client-side state)
-   - Submit order → `orders` table + `order_items` table (insert via anon key)
+   - Submit order → `orders` table + `order_items` table (insert via publishable key)
 
 2. **Admin Dashboard Flow:**
    - Login → Supabase Auth session

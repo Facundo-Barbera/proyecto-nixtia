@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { prisma } from '@/lib/prisma';
+import { createClient } from '@/lib/supabase/server';
 import ProductCard from '@/components/store/ProductCard';
 
 export const revalidate = 300; // Revalidate every 5 minutes
@@ -10,21 +10,24 @@ export const metadata: Metadata = {
 };
 
 export default async function StorePage() {
-  // Fetch active products from database
-  const products = await prisma.products.findMany({
-    where: { active: true },
-    orderBy: { created_at: 'desc' },
-    select: {
-      id: true,
-      name: true,
-      description: true,
-      price: true,
-      image_url: true,
-    },
-  });
+  // Fetch active products from Supabase
+  const supabase = await createClient();
+  const { data: products, error } = await supabase
+    .from('products')
+    .select('id, name, description, price, image_url')
+    .eq('is_active', true)
+    .order('created_at', { ascending: false });
+
+  // Error handling for Supabase response
+  if (error) {
+    console.error('Failed to fetch products:', error.message);
+  }
+
+  // Default to empty array if error or null data
+  const productList = products ?? [];
 
   // Empty state handling
-  if (products.length === 0) {
+  if (productList.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="text-center">
@@ -48,7 +51,7 @@ export default async function StorePage() {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-          {products.map((product, index) => (
+          {productList.map((product, index) => (
             <ProductCard key={product.id} product={product} priority={index < 3} />
           ))}
         </div>

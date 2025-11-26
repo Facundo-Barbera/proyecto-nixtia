@@ -34,10 +34,10 @@ workflow_status: |
 
   # Phase 2: Solutioning
   create-architecture: docs/planning/architecture  # agent: architect
-  create-epics-and-stories: required  # agent: pm (REQUIRED: final epic breakdown with full context)
-  test-design: recommended  # agent: tea (recommended)
-  validate-architecture: optional  # agent: architect
-  implementation-readiness: required  # agent: architect (REQUIRED: final gate check)
+  create-epics-and-stories: docs/planning/epics  # agent: pm (4 epics, 18 stories - brownfield-aware)
+  test-design: docs/planning/test-design-system  # agent: tea (recommended)
+  validate-architecture: docs/planning/architecture-validation-report.md  # agent: architect
+  implementation-readiness: docs/implementation-readiness-report-2025-11-25.md  # agent: architect (REQUIRED: final gate check)
 
   # Phase 3: Implementation
   sprint-planning: required  # agent: sm

@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { createClient } from '@/lib/supabase/server'
 import { CheckoutFormSchema } from '@/lib/validations/checkout'
 import { z } from 'zod'
-import { Prisma } from '@prisma/client'
 
 /**
  * Orders API Endpoint
@@ -34,12 +33,23 @@ const CreateOrderSchema = CheckoutFormSchema.extend({
  * Example: NX-2024-000001
  *
  * AC-2.5.7: Order number generated server-side
+ * Story 1.5: Migrated from Prisma to Supabase
  */
 async function generateOrderNumber(): Promise<string> {
   const year = new Date().getFullYear()
+  const supabase = await createClient()
 
-  // Count existing orders to generate next increment
-  const orderCount = await prisma.orders.count()
+  // Count existing orders using Supabase
+  const { count, error } = await supabase
+    .from('orders')
+    .select('*', { count: 'exact', head: true })
+
+  if (error) {
+    console.error('[generateOrderNumber] Supabase count error:', error.message)
+    throw new Error('Failed to generate order number')
+  }
+
+  const orderCount = count ?? 0
   const increment = (orderCount + 1).toString().padStart(6, '0')
 
   return `NX-${year}-${increment}`
@@ -48,6 +58,7 @@ async function generateOrderNumber(): Promise<string> {
 /**
  * POST /api/orders
  * Create a new order
+ * Story 1.5: Migrated from Prisma to Supabase
  */
 export async function POST(request: NextRequest) {
   try {
@@ -64,31 +75,38 @@ export async function POST(request: NextRequest) {
       0
     )
 
-    // Create order in database
-    const order = await prisma.orders.create({
-      data: {
+    // Create Supabase client
+    const supabase = await createClient()
+
+    // Create order in database using Supabase
+    const { data: order, error: insertError } = await supabase
+      .from('orders')
+      .insert({
         id: crypto.randomUUID(),
         order_number: orderNumber,
         customer_phone: validatedData.customerPhone,
         payment_method: validatedData.paymentMethod,
-        items_json: validatedData.items as Prisma.InputJsonValue,
-        total: new Prisma.Decimal(totalAmount.toFixed(2)),
+        items_json: validatedData.items, // Supabase handles JSON natively
+        total_amount: totalAmount, // Plain number, not Prisma Decimal
         payment_status: 'PENDING', // AC-2.5.7: Payment starts pending
         order_status: 'CONFIRMED', // AC-2.5.7: Order confirmed on creation
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      select: {
-        id: true,
-        order_number: true,
-        customer_phone: true,
-        payment_method: true,
-        total: true,
-        payment_status: true,
-        order_status: true,
-        created_at: true,
-      },
-    })
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      })
+      .select('id, order_number, customer_phone, payment_method, total_amount, payment_status, order_status, created_at')
+      .single()
+
+    if (insertError) {
+      console.error('[POST /api/orders] Supabase insert error:', insertError.message)
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Database error',
+          message: 'Failed to create order. Please try again.',
+        },
+        { status: 500 }
+      )
+    }
 
     // AC-2.5.7: Return order ID and details
     return NextResponse.json(
@@ -99,10 +117,10 @@ export async function POST(request: NextRequest) {
           orderNumber: order.order_number,
           customerPhone: order.customer_phone,
           paymentMethod: order.payment_method,
-          total: order.total.toString(),
+          total: order.total_amount.toString(), // Convert number to string for API compatibility
           paymentStatus: order.payment_status,
           orderStatus: order.order_status,
-          createdAt: order.created_at.toISOString(),
+          createdAt: order.created_at,
         },
       },
       { status: 201 }
@@ -122,19 +140,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Database error
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Database error',
-          message: 'Failed to create order. Please try again.',
-        },
-        { status: 500 }
-      )
-    }
-
-    // Generic error
+    // Generic error (including order number generation failures)
     return NextResponse.json(
       {
         success: false,

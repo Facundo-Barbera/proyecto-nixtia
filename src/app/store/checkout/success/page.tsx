@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
-import { notFound, redirect } from 'next/navigation'
-import { prisma } from '@/lib/prisma'
+import { redirect } from 'next/navigation'
+import { createClient } from '@/lib/supabase/server'
 import { CircleCheck } from 'lucide-react'
 import { format } from 'date-fns'
 import { Button } from '@/components/ui/button'
@@ -50,14 +50,16 @@ export default async function OrderSuccessPage({ searchParams }: PageProps) {
     redirect('/store')
   }
 
-  // AC-2.8.1: Fetch order data from database
-  let order
-  try {
-    order = await prisma.orders.findUnique({
-      where: { id: orderId },
-    })
-  } catch (error) {
-    console.error('[OrderSuccessPage] Database error:', error)
+  // AC-2.8.1: Fetch order data from database (migrated to Supabase - Story 1.5)
+  const supabase = await createClient()
+  const { data: order, error } = await supabase
+    .from('orders')
+    .select('*')
+    .eq('id', orderId)
+    .single()
+
+  if (error) {
+    console.error('[OrderSuccessPage] Supabase error:', error.message)
     // On database error, show error state
     return <OrderNotFoundError />
   }
@@ -118,7 +120,7 @@ export default async function OrderSuccessPage({ searchParams }: PageProps) {
 
             {/* Subheading */}
             <p className="text-lg text-gray-600 mb-6">
-              Thank you for your order. We'll prepare it shortly.
+              Thank you for your order. We&apos;ll prepare it shortly.
             </p>
 
             {/* Order Number (copyable) */}
@@ -130,7 +132,7 @@ export default async function OrderSuccessPage({ searchParams }: PageProps) {
             customerPhone={order.customer_phone}
             paymentMethod={paymentMethodLabel}
             items={items}
-            total={order.total.toString()}
+            total={order.total_amount.toString()}
             orderDate={formattedDate}
           />
 
@@ -173,7 +175,7 @@ function OrderNotFoundError() {
           Order Not Found
         </h1>
         <p className="text-gray-600 mb-6">
-          We couldn't find the order you're looking for. It may have been removed or the link is incorrect.
+          We couldn&apos;t find the order you&apos;re looking for. It may have been removed or the link is incorrect.
         </p>
         <Button asChild>
           <Link href="/store">Return to Store</Link>

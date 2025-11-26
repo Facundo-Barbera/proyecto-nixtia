@@ -2,15 +2,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Decimal } from '@prisma/client/runtime/library';
 
 interface Product {
   id: string;
   name: string;
   description: string | null;
-  price: Decimal;
+  price: number;
   image_url: string | null;
-  active: boolean;
 }
 
 interface FeaturedProductsProps {
@@ -18,6 +16,11 @@ interface FeaturedProductsProps {
 }
 
 export default function FeaturedProducts({ products }: FeaturedProductsProps) {
+  // Hide entire section when no products are available (AC-3.3)
+  if (products.length === 0) {
+    return null;
+  }
+
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4 max-w-6xl">

@@ -51,7 +51,7 @@
 **Supabase Integration:**
 - **Database:** PostgreSQL via PostgREST API
   - Connection: HTTPS REST API (no direct SQL connection from browser)
-  - Authentication: Service role key (server), anon key (client)
+  - Authentication: Secret key (server), publishable key (client)
   - RLS enforcement: All queries respect Row Level Security
 - **Auth:** Email/password for admin users
   - Session management: HTTP-only cookies via @supabase/ssr

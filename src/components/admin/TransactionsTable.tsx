@@ -35,19 +35,22 @@ type Order = {
   id: string
   order_number: string
   customer_phone: string
-  total: any // Prisma Decimal
+  total_amount: number
   payment_method: string
   payment_status: string
   order_status: string
-  created_at: Date
+  created_at: string
 }
 
 interface TransactionsTableProps {
   orders: Order[]
 }
 
-type SortColumn = 'created_at' | 'total'
+type SortColumn = 'created_at' | 'total_amount'
 type SortDirection = 'asc' | 'desc'
+type PaymentMethod = 'BANK_TRANSFER' | 'CASH_ON_DELIVERY' | 'CARD_ON_DELIVERY' | 'STRIPE'
+type PaymentStatus = 'PENDING' | 'CONFIRMED' | 'FAILED'
+type OrderStatus = 'PENDING' | 'CONFIRMED' | 'PREPARING' | 'READY' | 'DELIVERED' | 'CANCELLED'
 
 export function TransactionsTable({ orders }: TransactionsTableProps) {
   // AC-3.5.4: Sorting state (default: Date descending)
@@ -78,10 +81,10 @@ export function TransactionsTable({ orders }: TransactionsTableProps) {
       const timeA = new Date(a.created_at).getTime()
       const timeB = new Date(b.created_at).getTime()
       return sortDirection === 'asc' ? timeA - timeB : timeB - timeA
-    } else if (sortColumn === 'total') {
-      const totalA = parseFloat(a.total.toString())
-      const totalB = parseFloat(b.total.toString())
-      return sortDirection === 'asc' ? totalA - totalB : totalB - totalA
+    } else if (sortColumn === 'total_amount') {
+      return sortDirection === 'asc'
+        ? a.total_amount - b.total_amount
+        : b.total_amount - a.total_amount
     }
     return 0
   })
@@ -114,14 +117,14 @@ export function TransactionsTable({ orders }: TransactionsTableProps) {
   }
 
   // AC-3.5.7: Order detail link handler (MVP: show toast)
-  const handleOrderClick = (orderNumber: string) => {
+  const handleOrderClick = () => {
     toast('Order details coming soon', {
       icon: 'ℹ️',
     })
   }
 
-  // Sort indicator component
-  const SortIndicator = ({ column }: { column: SortColumn }) => {
+  // Sort indicator helper (returns JSX, not a component)
+  const renderSortIndicator = (column: SortColumn) => {
     if (sortColumn !== column) return null
     return sortDirection === 'asc' ? (
       <ArrowUp className="ml-1 h-4 w-4 inline" />
@@ -144,18 +147,18 @@ export function TransactionsTable({ orders }: TransactionsTableProps) {
                   className="flex items-center font-semibold hover:text-purple-600 transition-colors"
                 >
                   Date
-                  <SortIndicator column="created_at" />
+                  {renderSortIndicator('created_at')}
                 </button>
               </TableHead>
               <TableHead className="font-semibold">Order #</TableHead>
               <TableHead className="font-semibold">Customer</TableHead>
               <TableHead>
                 <button
-                  onClick={() => handleSort('total')}
+                  onClick={() => handleSort('total_amount')}
                   className="flex items-center font-semibold hover:text-purple-600 transition-colors"
                 >
                   Total
-                  <SortIndicator column="total" />
+                  {renderSortIndicator('total_amount')}
                 </button>
               </TableHead>
               <TableHead className="font-semibold">Payment Method</TableHead>
@@ -176,7 +179,7 @@ export function TransactionsTable({ orders }: TransactionsTableProps) {
                 {/* AC-3.5.7: Order # (clickable link) */}
                 <TableCell>
                   <button
-                    onClick={() => handleOrderClick(order.order_number)}
+                    onClick={handleOrderClick}
                     className="text-purple-600 hover:text-purple-800 hover:underline font-medium focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 rounded"
                     aria-label={`View order ${order.order_number}`}
                   >
@@ -191,19 +194,19 @@ export function TransactionsTable({ orders }: TransactionsTableProps) {
 
                 {/* AC-3.5.2: Total (formatted in MXN) */}
                 <TableCell className="font-semibold">
-                  {formatPrice(parseFloat(order.total.toString()))}
+                  {formatPrice(order.total_amount)}
                 </TableCell>
 
                 {/* AC-3.5.2: Payment Method (translated to Spanish) */}
                 <TableCell>
-                  {translatePaymentMethod(order.payment_method as any)}
+                  {translatePaymentMethod(order.payment_method as PaymentMethod)}
                 </TableCell>
 
                 {/* AC-3.5.2: Payment Status badge */}
                 <TableCell>
                   <StatusBadge
                     type="payment"
-                    status={order.payment_status as any}
+                    status={order.payment_status as PaymentStatus}
                   />
                 </TableCell>
 
@@ -211,7 +214,7 @@ export function TransactionsTable({ orders }: TransactionsTableProps) {
                 <TableCell>
                   <StatusBadge
                     type="order"
-                    status={order.order_status as any}
+                    status={order.order_status as OrderStatus}
                   />
                 </TableCell>
               </TableRow>
